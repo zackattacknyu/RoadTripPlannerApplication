@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Road Trip Stop Planner</title>
+        <script type="text/javascript"
+			src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyAx1AUx4ukGcxOpnZ8MmHbR04UK5ShCTPc&sensor=false">
+		</script>
+		<script type="text/javascript">
+        	var map;
+        	var map2;
+        	var numOptionalStops = 1;
+        	var directionsService = new google.maps.DirectionsService();
+        	var directionsDisplay;
+        	
+        	//this initializes the map
+        	function initialize(){
+        		// Configures how the map is created
+        		directionsDisplay = new google.maps.DirectionsRenderer();
+				var mapOptions = {
+					center: new google.maps.LatLng(39.8106, -97.0569),
+					zoom: 4,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					panControl: true
+				};
+	
+				// Creates and displays the map
+				map = new google.maps.Map(document.getElementById("mapContainer"), mapOptions);
+				map2 = new google.maps.Map(document.getElementById("mapContainer2"), mapOptions);
+				directionsDisplay.setMap(map);
+				directionsDisplay.setPanel(document.getElementById("sidebar"));
+        	}
+        	
+        	//this adds an optional stop to the itinerary
+        	function addOptionalStop(){
+        		numOptionalStops++;
+        		var currentInnerHTML=document.getElementById("StopsForm").innerHTML;
+        		var newInnerHTML=currentInnerHTML += 
+        			"Optional Stop " + numOptionalStops + ": <input type=\"text\" id=\"tripStop" + 
+        			numOptionalStops + "\"><br>";
+        		document.getElementById("StopsForm").innerHTML=newInnerHTML;
+        	}
+        	
+        	//this renders the directions
+        	function getTheOptions(){
+        		var start = document.getElementById("tripStart").value;
+			  	var end = document.getElementById("tripEnd").value;
+			  	var directionResults;
+			  	
+				var request = {
+				    origin:start,
+				    destination:end,
+				    travelMode: google.maps.TravelMode.DRIVING
+				 };
+				  directionsService.route(request, function(result, status) {
+				    if (status == google.maps.DirectionsStatus.OK) {
+				      directionsDisplay.setDirections(result);
+				      renderDirectionResults(result);
+				    }
+				  });
+				   
+        	}
+        	
+        	function renderDirectionResults(directionResult){
+        		var calculatedRoute = directionResult.routes[0].legs[0];
+        		var totalDistance = calculatedRoute.distance.text;
+        		var totalTime = calculatedRoute.duration.text;
+        		
+        		document.getElementById("routeInfoDistance").innerHTML += totalDistance;
+        		document.getElementById("routeInfoTime").innerHTML += totalTime;
+        	}
+        </script>
+    <style> table, td, th { border-color: #cccccc; border-style: solid; } table { border-width: 0 0 1px 1px; border-spacing: 0px; border-collapse: collapse; } td { border-width: 1px; } th { border-width: 1px; } </style></head>
+    <body onload="initialize()">
+    	<div id="WebpageHeader">
+    		<h1>Road Trip Stop Planner</h1>
+    	</div>
+    	
+    	<div id="WebpageSubHeader">
+    		<h2> Figure out how long it will take to add extra stops and plan accordingly</h2>	
+    	</div>
+        
+        <div id="DirectionInput">
+        	<form id="StartingPoint">
+        		Starting Address: <input type="text" id="tripStart"><br>
+        	</form>
+        	<form id="StopsForm">
+				Optional Stop 1: <input type="text" id="tripStop1"><br>
+			</form>
+			<form id="EndingPoint">
+				Ending Address: <input type="text" id="tripEnd"><br>
+			</form>
+			<button id="AddOptionalStop" onclick="addOptionalStop()">
+				Add Optional Stop
+			</button>
+			<button id="ObtainOptions" onclick="getTheOptions()"> 
+				Get Your Options!
+			</button>
+        </div>
+        
+        <div id="routeOptionsInfo">
+        	<h3 id="sidebarTitle" style="margin: 0; padding: 0">Your Route Options</h3>
+        	<h3 id="routeInfoDistance"> Total Distance: </h3>
+        	<h3 id="routeInfoTime"> Total Time: </h3>	
+        </div>
+        
+        <div id="OptionsShown">
+        	<p> Option 1 </p>
+	        <div id="store-locator-container">	
+				<div id="sidebar" style="float: left; position: relative; width: 400px; padding: 0; margin: 0">
+					&nbsp;
+				</div>
+				<div id="mapContainer" style="float: left; position: relative; width: 700px; height: 500px">
+	        	</div>
+			</div>
+			
+			<p> Option 2 </p>
+			<div id="store-locator-container2">	
+				<div id="sidebar2" style="float: left; position: inherit; width: 400px; padding: 0; margin: 0">
+					&nbsp;
+				</div>
+				<div id="mapContainer2" style="float: left; position: inherit; width: 700px; height: 500px">
+	        	</div>
+			</div>
+        	
+        </div>
+        
+    </body>
+</html>
