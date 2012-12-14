@@ -29,6 +29,9 @@ function makeBinaryStrings(){
 function initializeAllMaps () {
   	for(x = 0; x < binaryStrings.length; x++){
   		makeMapContainer(x);
+  	}
+  	
+  	for(x = 0 ; x < binaryStrings.length; x++){
   		directionsDisplayAll[x] = new google.maps.DirectionsRenderer();
   		allMaps[x] = new google.maps.Map(document.getElementById("mapContainer" + x),mapOptions);
   	}
