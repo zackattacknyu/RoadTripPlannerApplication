@@ -27,6 +27,7 @@ function makeBinaryStrings(){
 }
 
 function initializeAllMaps () {
+	document.getElementById("OptionsShown").innerHTML = "";
   	for(x = 0; x < binaryStrings.length; x++){
   		makeMapContainer(x);
   	}
