@@ -41,17 +41,20 @@
 					</form>
 					
 					<form id="StopsForm">
-					  Optional Stop 1: <input type="text" id="tripStop1"><br>
+						<div id="Stop1TextLabel">
+							Optional Stop 1: <input type="text" id="tripStop1"><br>
+						</div>
+			
 					</form>
 					
 					<form id="EndingPoint">
 					  Ending Address: <input type="text" id="tripEnd"><br>
 					</form>
-					<button id="AddOptionalStop" onclick="addOptionalStop()">Add Optional Stop
-					</button> 
+					<input type="button" id="AddOptionalStop" onclick="addOptionalStop()" value="Add Optional Stop"/>
 					
-					<button id="ObtainOptions" onclick="getTheOptions()">Get Your Options! 
-					</button> 
+					<input type="button" id="RemoveAdditionalStop" onclick="removeOptionalStop()" value="Remove Optional Stop"/>
+					
+					<input type="button" id="ObtainOptions" onclick="getTheOptions()" value="Get Your Options!"/> 
 				</div>
 					
 				<div id="routeOptionsInfo">

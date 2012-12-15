@@ -75,17 +75,28 @@ function addOptionalStop(){
         if(numOptionalStops < 8){
         	numOptionalStops++;
             var currentInnerHTML=document.getElementById("StopsForm").innerHTML;
-            var newInnerHTML=currentInnerHTML += 
+            var newInnerHTML=currentInnerHTML += "<div id=\"Stop" + numOptionalStops + "TextLabel\">" + 
                     "Optional Stop " + numOptionalStops + ": <input type=\"text\" id=\"tripStop" + 
-                    numOptionalStops + "\"><br>";
+                    numOptionalStops + "\"><br>" + "</div>";
             document.getElementById("StopsForm").innerHTML=newInnerHTML;	
         }
 }
 
+//this removes a stop from the itinerary
+function removeOptionalStop(){
+	if(numOptionalStops > 1){
+		var stopElement = document.getElementById("Stop" + numOptionalStops + "TextLabel");
+		stopElement.parentNode.removeChild(stopElement);		
+		numOptionalStops--;
+		
+	}
+}
+
+//this makes an individual direction and map container
 function makeMapContainer(mapNumber){
 	var newHtml = "<div id=\"mapDirectionsContainer" + mapNumber + "\" style=\"height:50%; width:100%;float:left\">";
-	newHtml += 	"<h3 id=\"sidebarTitle" + mapNumber + "\" style=\"margin: 0; padding: 0\">Route " + mapNumber + "</h3>";
-	newHtml += "<div id=\"sidebar0\"";
+	newHtml += 	"<h3 id=\"sidebarTitle" + mapNumber + "\" style=\"margin: 0; padding: 0\">Route with " + makeRouteHeader(mapNumber) + "</h3>";
+	newHtml += "<div id=\"sidebar" + mapNumber + "\"";
 	newHtml += "style=\"float: left; position: relative; width: 33%; height:50%; padding: 0; margin: 0\">";
 	newHtml += "</div>";
 	newHtml += "<div id=\"mapContainer" + mapNumber+ "\"";
@@ -94,6 +105,30 @@ function makeMapContainer(mapNumber){
 	newHtml += "</div>";
 	
 	document.getElementById("OptionsShown").innerHTML += newHtml;
+}
+
+//this makes the route header text for the map
+function makeRouteHeader(mapNumber){
+	var headerText = "waypoints of ";
+	var binaryStringForNumber = binaryStrings[mapNumber];
+	var stopInputTextField;
+	var stopNumber;
+	if(mapNumber == 0){
+		return "no added waypoints";
+	}
+	else{
+		for(charIndex = 0; charIndex < binaryStringForNumber.length; charIndex++){
+			if(binaryStringForNumber.charAt(charIndex) == '1'){
+				stopNumber = charIndex + 1;
+				stopInputTextField = document.getElementById("tripStop" + stopNumber);
+				headerText += stopInputTextField.value;
+				headerText += " ; ";
+			}
+		}
+	}
+	
+	//removes the last semicolon before returning header
+	return headerText.substring(0,headerText.length-2);
 }
 
 //this renders the directions
