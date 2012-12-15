@@ -27,6 +27,7 @@ function makeBinaryStrings(){
 }
 
 function initializeAllMaps () {
+	
 	document.getElementById("OptionsShown").innerHTML = "";
   	for(x = 0; x < binaryStrings.length; x++){
   		makeMapContainer(x);
@@ -35,6 +36,17 @@ function initializeAllMaps () {
   	for(x = 0 ; x < binaryStrings.length; x++){
   		directionsDisplayAll[x] = new google.maps.DirectionsRenderer();
   		allMaps[x] = new google.maps.Map(document.getElementById("mapContainer" + x),mapOptions);
+  		directionsDisplayAll[x].setMap(allMaps[x]);
+        directionsDisplayAll[x].setPanel(document.getElementById("sidebar" + x));
+  	}
+  	
+  	//makes the information headers
+  	for(x = 1; x < binaryStrings.length; x++){
+  		document.getElementById('routeOptionsInfo').innerHTML += 
+  			"<h3 id=\"route" + x + "InfoDistance\">Added Distance with " + makeRouteHeader(x) +": </h3>";
+		
+		document.getElementById('routeOptionsInfo').innerHTML += 
+  			"<h3 id=\"route" + x + "InfoTime\">Added Time with " + makeRouteHeader(x) +": </h3>";
   	}
 }
 
@@ -131,14 +143,50 @@ function makeRouteHeader(mapNumber){
 	return headerText.substring(0,headerText.length-2);
 }
 
+function getDirections(mapNumber, start, end){
+	var stops = [];
+	var binaryStringForNumber = binaryStrings[mapNumber];
+	var currentStopInfo;
+	var stopNumber;
+	var stopIndex;
+	var currentStop;
+	console.log("mapNumber = " + mapNumber);
+	for(stopIndex = 0; stopIndex < numOptionalStops; stopIndex++){
+		stopNumber = stopIndex+1;
+		currentStop = document.getElementById("tripStop" + stopNumber);
+		if(binaryStringForNumber.charAt(stopIndex) == '1'){
+			stops.push({
+			location:currentStop.value,
+			stopover:true
+			})	
+		}
+	}
+	var request = {
+		origin:start,
+		destination:end,
+		waypoints:stops,
+		travelMode: google.maps.TravelMode.DRIVING
+	}
+	directionsService.route(request, function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplayAll[mapNumber].setDirections(result);
+          //renderDirectionResults(result);
+        }
+    });
+          
+}
+
 //this renders the directions
 function getTheOptions(){
 		makeBinaryStrings();
-		initializeAllMaps();
-		/*
-        var currentDate = new Date();
+		initializeAllMaps(); 
+		var optionIndex;
         var start = document.getElementById("tripStart").value;
-          var end = document.getElementById("tripEnd").value;
+        var end = document.getElementById("tripEnd").value;
+        for(optionIndex = 0; optionIndex < binaryStrings.length; optionIndex++){
+        	getDirections(optionIndex,start,end);
+        }
+          /*
           var stops = [];
           var stop1 = document.getElementById("tripStop1");
           stops.push({
