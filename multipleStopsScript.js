@@ -41,6 +41,7 @@ function initializeAllMaps () {
   	}
   	
   	//makes the information headers
+  	document.getElementById('routeOptionsInfo').innerHTML="";
   	for(x = 1; x < binaryStrings.length; x++){
   		document.getElementById('routeOptionsInfo').innerHTML += 
   			"<h3 id=\"route" + x + "InfoDistanceTime\">Added Distance, Time with " + makeRouteHeader(x) +": </h3>";
