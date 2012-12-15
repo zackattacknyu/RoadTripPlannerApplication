@@ -4,10 +4,10 @@ var numOptionalStops = 1;
 var optionalStops = new Array();
 var directionsService = new google.maps.DirectionsService();
 var directionsDisplay;
-var route1Distance;
-var route1Time;
-var route2Distance;
-var route2Time;
+var baseRouteDistance;
+var baseRouteTime;
+var newRouteDistance;
+var newRouteTime;
 var routeInfoDistTitle = "Added Distance with Optional Stop: ";
 var routeInfoTimeTitle = "Added Time with Optional Stop: ";
 
@@ -43,10 +43,8 @@ function initializeAllMaps () {
   	//makes the information headers
   	for(x = 1; x < binaryStrings.length; x++){
   		document.getElementById('routeOptionsInfo').innerHTML += 
-  			"<h3 id=\"route" + x + "InfoDistance\">Added Distance with " + makeRouteHeader(x) +": </h3>";
+  			"<h3 id=\"route" + x + "InfoDistanceTime\">Added Distance, Time with " + makeRouteHeader(x) +": </h3>";
 		
-		document.getElementById('routeOptionsInfo').innerHTML += 
-  			"<h3 id=\"route" + x + "InfoTime\">Added Time with " + makeRouteHeader(x) +": </h3>";
   	}
 }
 
@@ -150,7 +148,6 @@ function getDirections(mapNumber, start, end){
 	var stopNumber;
 	var stopIndex;
 	var currentStop;
-	console.log("mapNumber = " + mapNumber);
 	for(stopIndex = 0; stopIndex < numOptionalStops; stopIndex++){
 		stopNumber = stopIndex+1;
 		currentStop = document.getElementById("tripStop" + stopNumber);
@@ -170,7 +167,7 @@ function getDirections(mapNumber, start, end){
 	directionsService.route(request, function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
           directionsDisplayAll[mapNumber].setDirections(result);
-          //renderDirectionResults(result);
+          renderNewRouteResults(result, mapNumber);
         }
     });
           
@@ -183,78 +180,69 @@ function getTheOptions(){
 		var optionIndex;
         var start = document.getElementById("tripStart").value;
         var end = document.getElementById("tripEnd").value;
-        for(optionIndex = 0; optionIndex < binaryStrings.length; optionIndex++){
+        
+        //writes the base directions, no stops
+        var request = {
+		origin:start,
+		destination:end,
+		travelMode: google.maps.TravelMode.DRIVING
+		}
+		directionsService.route(request, function(result, status) {
+	        if (status == google.maps.DirectionsStatus.OK) {
+	          directionsDisplayAll[0].setDirections(result);
+	          renderInitialDirectionResult(result);
+	        }
+	    });
+	    
+	    //writes the rest of the directions
+        for(optionIndex = 1; optionIndex < binaryStrings.length; optionIndex++){
         	getDirections(optionIndex,start,end);
         }
-          /*
-          var stops = [];
-          var stop1 = document.getElementById("tripStop1");
-          stops.push({
-          	location:stop1.value,
-          	stopover:true
-          });
-        var request = {
-            origin:start,
-            destination:end,
-            travelMode: google.maps.TravelMode.DRIVING
-         };
-         
-         var request2 = {
-            origin:start,
-            destination:end,
-            waypoints: stops,
-            travelMode: google.maps.TravelMode.DRIVING
-         };
-          directionsService.route(request, function(result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-              directionsDisplay.setDirections(result);
-              renderDirectionResults(result);
-            }
-          });
-          
-          directionsService.route(request2, function(result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-              directionsDisplay2.setDirections(result);
-              renderDirectionResults2(result);
-            }
-          });
-		*/
           
                    
 }
-function renderDirectionResults2(directionResult){
+function renderNewRouteResults(directionResult, mapNumber){
         var calculatedRoute = directionResult.routes[0];
-       	route2Distance = 0; route2Time = 0;
+        
+        /*
+         * gets the new route distance, in meters
+         * gets the new route time, in seconds
+         */
+       	newRouteDistance = 0; newRouteTime = 0;
         for(i = 0; i < calculatedRoute.legs.length; i++){
-        	route2Distance += calculatedRoute.legs[i].distance.value;
-        	route2Time += calculatedRoute.legs[i].duration.value;
+        	newRouteDistance += calculatedRoute.legs[i].distance.value;
+        	newRouteTime += calculatedRoute.legs[i].duration.value;
         }
         
-        var route2DistDiff = (route2Distance - route1Distance)/(1609.34);
-        var route2TimeDiff = (route2Time - route1Time)/60;
+        //gets the difference and converts it to miles
+        var newRouteDistDiff = (newRouteDistance - baseRouteDistance)/(1609.34);
         
-        var route2TimeDiffHoursPart = Math.floor(route2TimeDiff/60);
-        var route2TimeDiffMinsPart = route2TimeDiff%60;
-        /*
-        document.getElementById("routeInfoDistance").innerHTML =
-        	routeInfoDistTitle + route2DistDiff.toFixed(0) + " mi";
+        //gets the difference and converts it to x hours y mins format. 
+        var newRouteTimeDiff = (newRouteTime - baseRouteTime)/60;
+        var newRouteTimeDiffHoursPart = Math.floor(newRouteTimeDiff/60);
+        var newRouteTimeDiffMinsPart = newRouteTimeDiff%60;
         
-        if(route2TimeDiffHoursPart > 0){
-        	document.getElementById("routeInfoTime").innerHTML = 
-        		routeInfoTimeTitle + route2TimeDiffHoursPart.toFixed(0) + " hours " + 
-        		route2TimeDiffMinsPart.toFixed(0) + " min";	
+        //writes the results to the HTML element
+        document.getElementById("route" + mapNumber + "InfoDistanceTime").innerHTML =
+        	"Added Distance, Time with " + makeRouteHeader(mapNumber) + " : " +
+        	newRouteDistDiff.toFixed(0) + " mi, ";
+        
+        if(newRouteTimeDiffHoursPart > 0){
+        	document.getElementById("route" + mapNumber + "InfoDistanceTime").innerHTML += 
+        		newRouteTimeDiffHoursPart.toFixed(0) + " hours " + 
+        		newRouteTimeDiffMinsPart.toFixed(0) + " min";	
         }
         else{
-        	document.getElementById("routeInfoTime").innerHTML = 
-        		routeInfoTimeTitle + route2TimeDiff.toFixed(0) + " mins";
-        }*/
+        	document.getElementById("route" + mapNumber + "InfoDistanceTime").innerHTML += 
+        		newRouteTimeDiff.toFixed(0) + " mins";
+        }
         
         
 }
-function renderDirectionResults(directionResult){
+function renderInitialDirectionResult(directionResult){
         var calculatedRoute = directionResult.routes[0].legs[0];
-        route1Distance = calculatedRoute.distance.value;
-        route1Time = calculatedRoute.duration.value;
+        baseRouteDistance = calculatedRoute.distance.value;
+        baseRouteTime = calculatedRoute.duration.value;
         
         
 }
