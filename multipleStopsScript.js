@@ -45,13 +45,13 @@ function initializeAllMaps () {
   	document.getElementById('routeOptionsInfo').innerHTML = getInitialTableHtml();
   	tableRowHtml = "<tbody>";
   	for(x = 1; x < binaryStrings.length; x++){
-  		tableRowHtml += "<tr>";
+  		tableRowHtml += "<tr align=\"center\">";
   		tableRowHtml += "<td>";
   		tableRowHtml += makeRouteHeader(x);
 		tableRowHtml += "</td>";
-		tableRowHtml += "<td id=\"route" + x + "InfoDistance\">";
-		tableRowHtml += "</td>";
 		tableRowHtml += "<td id=\"route" + x + "InfoTime\">";
+		tableRowHtml += "</td>";
+		tableRowHtml += "<td id=\"route" + x + "InfoDistance\">";
 		tableRowHtml += "</td>";
 		tableRowHtml += "</tr>";
   	}
