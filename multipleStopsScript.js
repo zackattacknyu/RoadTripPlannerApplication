@@ -99,8 +99,13 @@ function initialize(){
 
 //this adds an optional stop to the itinerary
 function addOptionalStop(){
-		//google has a limit of 8 waypoints to be used by their API
-        if(numOptionalStops < 8){
+		
+		/*
+		 * Google has a query limit of 10 queries at a time, 
+		 * 		so the number of optional stops must be limited
+		 * 		to three. 
+		 */
+        if(numOptionalStops < 3){
         	numOptionalStops++;
             var currentInnerHTML=document.getElementById("StopsForm").innerHTML;
             var newInnerHTML=currentInnerHTML += "<div id=\"Stop" + numOptionalStops + "TextLabel\">" + 
