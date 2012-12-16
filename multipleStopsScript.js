@@ -27,6 +27,7 @@ function makeBinaryStrings(){
 }
 
 function initializeAllMaps () {
+	var tableRowHtml;
 	
 	document.getElementById("OptionsShown").innerHTML = "";
   	for(x = 0; x < binaryStrings.length; x++){
@@ -41,12 +42,39 @@ function initializeAllMaps () {
   	}
   	
   	//makes the information headers
-  	document.getElementById('routeOptionsInfo').innerHTML="";
+  	document.getElementById('routeOptionsInfo').innerHTML = getInitialTableHtml();
+  	tableRowHtml = "<tbody>";
   	for(x = 1; x < binaryStrings.length; x++){
-  		document.getElementById('routeOptionsInfo').innerHTML += 
-  			"<h3 id=\"route" + x + "InfoDistanceTime\">Added Distance, Time with " + makeRouteHeader(x) +": </h3>";
-		
+  		tableRowHtml += "<tr>";
+  		tableRowHtml += "<td>";
+  		tableRowHtml += makeRouteHeader(x);
+		tableRowHtml += "</td>";
+		tableRowHtml += "<td id=\"route" + x + "InfoDistance\">";
+		tableRowHtml += "</td>";
+		tableRowHtml += "<td id=\"route" + x + "InfoTime\">";
+		tableRowHtml += "</td>";
+		tableRowHtml += "</tr>";
   	}
+  	tableRowHtml += "</tbody>";
+  	document.getElementById('routeOptionsInfo').innerHTML += tableRowHtml;
+}
+
+function getInitialTableHtml(){
+	var headerHtml = "";
+	headerHtml += "<thead>";
+	headerHtml += "<tr>";
+	headerHtml += "<th>";
+	headerHtml += "Waypoints";
+	headerHtml += "</th>";
+	headerHtml += "<th>";
+	headerHtml += "Added Time";
+	headerHtml += "</th>";
+	headerHtml += "<th>";
+	headerHtml += "Added Distance (miles)";
+	headerHtml += "</th>"
+	headerHtml += "</tr>";
+	headerHtml += "</thead";
+	return headerHtml;
 }
 
 function AddLeadingZeros(startingString, lengthRequired){
@@ -61,23 +89,12 @@ function AddLeadingZeros(startingString, lengthRequired){
 
 //this initializes the map
 function initialize(){
-        // Configures how the map is created
-        //directionsDisplay = new google.maps.DirectionsRenderer();
-        //directionsDisplay2 = new google.maps.DirectionsRenderer();
         mapOptions = {
                 center: new google.maps.LatLng(39.8106, -97.0569),
                 zoom: 4,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 panControl: true
         };
-
-        // Creates and displays the map
-        //map = new google.maps.Map(document.getElementById("mapContainer0"), mapOptions);
-        //map2 = new google.maps.Map(document.getElementById("mapContainer1"), mapOptions);
-        //directionsDisplay.setMap(map);
-        //directionsDisplay2.setMap(map2);
-        //directionsDisplay.setPanel(document.getElementById("sidebar"));
-        //directionsDisplay2.setPanel(document.getElementById("sidebar2"));
 }
 
 //this adds an optional stop to the itinerary
@@ -120,12 +137,12 @@ function makeMapContainer(mapNumber){
 
 //this makes the route header text for the map
 function makeRouteHeader(mapNumber){
-	var headerText = "waypoints of ";
+	var headerText = "";
 	var binaryStringForNumber = binaryStrings[mapNumber];
 	var stopInputTextField;
 	var stopNumber;
 	if(mapNumber == 0){
-		return "no added waypoints";
+		return "No Added Waypoints";
 	}
 	else{
 		for(charIndex = 0; charIndex < binaryStringForNumber.length; charIndex++){
@@ -224,17 +241,16 @@ function renderNewRouteResults(directionResult, mapNumber){
         var newRouteTimeDiffMinsPart = newRouteTimeDiff%60;
         
         //writes the results to the HTML element
-        document.getElementById("route" + mapNumber + "InfoDistanceTime").innerHTML =
-        	"Added Distance, Time with " + makeRouteHeader(mapNumber) + " : " +
-        	newRouteDistDiff.toFixed(0) + " mi, ";
+        document.getElementById("route" + mapNumber + "InfoDistance").innerHTML =
+        	newRouteDistDiff.toFixed(0);
         
         if(newRouteTimeDiffHoursPart > 0){
-        	document.getElementById("route" + mapNumber + "InfoDistanceTime").innerHTML += 
+        	document.getElementById("route" + mapNumber + "InfoTime").innerHTML = 
         		newRouteTimeDiffHoursPart.toFixed(0) + " hours " + 
         		newRouteTimeDiffMinsPart.toFixed(0) + " min";	
         }
         else{
-        	document.getElementById("route" + mapNumber + "InfoDistanceTime").innerHTML += 
+        	document.getElementById("route" + mapNumber + "InfoTime").innerHTML = 
         		newRouteTimeDiff.toFixed(0) + " mins";
         }
         
