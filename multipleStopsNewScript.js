@@ -41,11 +41,14 @@ function initializeAllMaps () {
   	
   	//makes the information headers
   	document.getElementById('routeOptionsInfo').innerHTML = getInitialTableHtml();
-  	tableRowHtml = "<tbody>";
-  	for(x = 1; x < binaryStrings.length; x++){
+  	document.getElementById('routeOptionsInfo').innerHTML += getBodyTableHtml(1,binaryStrings.length);
+}
+
+function getBodyTableHtml(startingRowNumber, endingRowNumber){
+	var tableRowHtml = "<tbody>";
+  	for(x = startingRowNumber; x < endingRowNumber; x++){
   		tableRowHtml += "<tr align=\"center\">";
-  		tableRowHtml += "<td>";
-  		tableRowHtml += makeRouteHeader(x);
+  		tableRowHtml += "<td id=\"route" + x + "InfoHeader\">";
 		tableRowHtml += "</td>";
 		tableRowHtml += "<td id=\"route" + x + "InfoTime\">";
 		tableRowHtml += "</td>";
@@ -54,7 +57,7 @@ function initializeAllMaps () {
 		tableRowHtml += "</tr>";
   	}
   	tableRowHtml += "</tbody>";
-  	document.getElementById('routeOptionsInfo').innerHTML += tableRowHtml;
+  	return tableRowHtml;
 }
 
 function getInitialTableHtml(){
@@ -231,6 +234,9 @@ function renderNewRouteResults(directionResult, mapNumber){
         var newRouteTimeDiff = new TimeMeasure(newRouteTime - baseRouteTime);
         
         //writes the results to the HTML element
+        document.getElementById("route" + mapNumber + "InfoHeader").innerHTML =
+        	makeRouteHeader(mapNumber);
+        
         document.getElementById("route" + mapNumber + "InfoDistance").innerHTML =
         	newRouteDistDiff.getMilesString();
         
