@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>Accurate Time Estimator</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Zach" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+		
+		<script type="text/javascript"
+	  src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=AIzaSyAx1AUx4ukGcxOpnZ8MmHbR04UK5ShCTPc&amp;sensor=false">
+	 </script>
+	  <script type="text/javascript" src="AccurateTimeEstimatorScript.js">
+	  		     
+	  </script>
+	</head>
+
+	<body onload="initialize()">
+		<div>
+			<header>
+				<h1>Plan out a long trip with accurate time estimates</h1>
+			</header>
+
+
+			<div>
+				<div id="WebpageSubHeader">
+					<h2>Use your own average speed instead of Google's to get an accurate time estimate</h2>
+				</div>
+				
+				<div id="DirectionInput">
+					
+					<table border="1" id="routeOptionsTable">
+						<tbody id="StopsForm">
+							<tr>
+								<td>
+									Starting Address:	
+								</td>
+								<td>
+									<input type="text" id="tripStart"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Stop 1:
+								</td>
+								<td>
+									<input type="text" id="tripStop1"/>
+								</td>
+							</tr>
+						</tbody>
+						<tbody>
+							<tr>
+								<td>
+									Ending Address:
+								</td>
+								<td>
+									<input type="text" id="tripEnd">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<input type="button" id="AddOptionalStop" onclick="addStop()" value="Add Stop"/>
+					
+					<input type="button" id="RemoveAdditionalStop" onclick="removeStop()" value="Remove Stop"/>
+					
+					<input type="button" id="ObtainOptions" onclick="getTheOptions()" value="Get Your Options!"/> 
+				</div>
+					
+				<div id="TablesShowingLegs">					
+				</div>
+				
+				<div id="OptionsShown">
+				
+				</div>
+			</div>
+
+			<footer>
+				<p>
+					&copy; Copyright  by Zach DeStefano
+				</p>
+			</footer>
+		</div>
+	</body>
+</html>

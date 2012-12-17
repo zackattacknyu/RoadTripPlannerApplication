@@ -28,7 +28,10 @@ function initializeAllMaps () {
 	var tableRowHtml;
 	
 	document.getElementById("OptionsShown").innerHTML = "";
-  	for(x = 0; x < binaryStrings.length; x++){
+	makeMapContainer(0);
+	document.getElementById("sidebarTitle0").innerHTML=
+        	"Route with " + makeRouteHeader(0);
+  	for(x = 1; x < binaryStrings.length; x++){
   		makeMapContainer(x);
   	}
   	
@@ -128,8 +131,12 @@ function removeOptionalStop(){
 
 //this makes an individual direction and map container
 function makeMapContainer(mapNumber){
+	document.getElementById("OptionsShown").innerHTML += getMapContainerHtml(mapNumber);
+}
+
+function getMapContainerHtml(mapNumber){
 	var newHtml = "<div id=\"mapDirectionsContainer" + mapNumber + "\" style=\"height:50%; width:100%;float:left\">";
-	newHtml += 	"<h3 id=\"sidebarTitle" + mapNumber + "\" style=\"margin: 0; padding: 0\">Route with " + makeRouteHeader(mapNumber) + "</h3>";
+	newHtml += 	"<h3 id=\"sidebarTitle" + mapNumber + "\" style=\"margin: 0; padding: 0\"></h3>";
 	newHtml += "<div id=\"sidebar" + mapNumber + "\"";
 	newHtml += "style=\"float: left; position: relative; width: 33%; height:50%; padding: 0; margin: 0\">";
 	newHtml += "</div>";
@@ -137,8 +144,7 @@ function makeMapContainer(mapNumber){
 	newHtml += "style=\"float: left; position: relative; width: 67%; height: 700px\">";
 	newHtml += "</div>";
 	newHtml += "</div>";
-	
-	document.getElementById("OptionsShown").innerHTML += newHtml;
+	return newHtml;
 }
 
 //this makes the route header text for the map
@@ -234,6 +240,9 @@ function renderNewRouteResults(directionResult, mapNumber){
         var newRouteTimeDiff = new TimeMeasure(newRouteTime - baseRouteTime);
         
         //writes the results to the HTML element
+        document.getElementById("sidebarTitle" + mapNumber).innerHTML=
+        	"Route with " + makeRouteHeader(mapNumber);
+        
         document.getElementById("route" + mapNumber + "InfoHeader").innerHTML =
         	makeRouteHeader(mapNumber);
         
