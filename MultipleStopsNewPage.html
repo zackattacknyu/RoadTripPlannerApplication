@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>MultipleStopsPage</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Zach" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+		
+		<script type="text/javascript"
+	  src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=AIzaSyAx1AUx4ukGcxOpnZ8MmHbR04UK5ShCTPc&amp;sensor=false">
+	 </script>
+	  <script type="text/javascript" src="multipleStopsNewScript.js">
+	  		     
+	  </script>
+	</head>
+
+	<body onload="initialize()">
+		<div>
+			<header>
+				<h1>Plan out multiple stops</h1>
+			</header>
+
+
+			<div>
+				<div id="WebpageSubHeader">
+					<h2>Figure out how long it will take to add extra stops and plan
+					accordingly</h2>
+				</div>
+				
+				<div id="DirectionInput">
+				
+					<form id="StartingPoint">
+					  Starting Address: <input type="text" id="tripStart"><br>
+					</form>
+					
+					<form id="StopsForm">
+						<div id="Stop1TextLabel">
+							Optional Stop 1: <input type="text" id="tripStop1"><br>
+						</div>
+			
+					</form>
+					
+					<form id="EndingPoint">
+					  Ending Address: <input type="text" id="tripEnd"><br>
+					</form>
+					<input type="button" id="AddOptionalStop" onclick="addOptionalStop()" value="Add Optional Stop"/>
+					
+					<input type="button" id="RemoveAdditionalStop" onclick="removeOptionalStop()" value="Remove Optional Stop"/>
+					
+					<input type="button" id="ObtainOptions" onclick="getTheOptions()" value="Get Your Options!"/> 
+				</div>
+					
+				<div>					
+					<!-- This is the table showing all the options-->
+					<table border="1" id="routeOptionsInfo">
+					</table>
+				</div>
+				
+				<div id="OptionsShown">
+				
+				</div>
+			</div>
+
+			<footer>
+				<p>
+					&copy; Copyright  by Zach DeStefano
+				</p>
+			</footer>
+		</div>
+	</body>
+</html>
