@@ -1,6 +1,6 @@
 var map;
 var map2;
-var numOptionalStops = 1;
+var numOptionalStops = 0;
 var optionalStops = new Array();
 var directionsService = new google.maps.DirectionsService();
 var directionsDisplay;
@@ -79,7 +79,7 @@ function addStop(){
 
 //this removes a stop from the itinerary
 function removeStop(){
-	if(numOptionalStops > 1){
+	if(numOptionalStops > 0){
 		var stopElement = document.getElementById("Stop" + numOptionalStops + "TextLabel");
 		stopElement.parentNode.removeChild(stopElement);		
 		numOptionalStops--;
