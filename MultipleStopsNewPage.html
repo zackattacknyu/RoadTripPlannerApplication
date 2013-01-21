@@ -19,6 +19,9 @@
 	  <script type="text/javascript" src="multipleStopsNewScript.js">
 	  		     
 	  </script>
+	  <script type="text/javascript" src="testTraversalCode.js">
+	  </script>
+	  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	</head>
 
 	<body onload="initialize()">
@@ -54,7 +57,7 @@
 					
 					<input type="button" id="RemoveAdditionalStop" onclick="removeOptionalStop()" value="Remove Optional Stop"/>
 					
-					<input type="button" id="ObtainOptions" onclick="getTheOptions()" value="Get Your Options!"/> 
+					<input type="button" id="ObtainOptions" onclick="renderOptions()" value="Get Your Options!"/> 
 				</div>
 					
 				<div>					
@@ -64,7 +67,7 @@
 				</div>
 				
 				<div id="OptionsShown">
-				
+					<h3 id="TestString">This is a test</h3>
 				</div>
 			</div>
 

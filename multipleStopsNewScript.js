@@ -109,7 +109,7 @@ function addOptionalStop(){
 		 * 		so the number of optional stops must be limited
 		 * 		to three. 
 		 */
-        if(numOptionalStops < 3){
+        if(numOptionalStops < 9){
         	numOptionalStops++;
             var currentInnerHTML=document.getElementById("StopsForm").innerHTML;
             var newInnerHTML=currentInnerHTML += "<div id=\"Stop" + numOptionalStops + "TextLabel\">" + 
@@ -206,28 +206,51 @@ function getDirections(mapNumber, start, end){
 //this renders the directions
 function getTheOptions(){
 		makeBinaryStrings();
-		initializeAllMaps(); 
-		var optionIndex;
-        var start = document.getElementById("tripStart").value;
-        var end = document.getElementById("tripEnd").value;
-        
-        //writes the base directions, no stops
-        var request = {
-		origin:start,
-		destination:end,
-		travelMode: google.maps.TravelMode.DRIVING
+		
+		//makes the information headers
+  		document.getElementById('routeOptionsInfo').innerHTML = getInitialTableHtml();
+  		document.getElementById('routeOptionsInfo').innerHTML += getBodyTableHtml(1,binaryStrings.length);
+  		
+  		var stops = [];
+		var binaryStringForNumber;
+		var stopNumber = 0;
+		var stopIndex = 0;
+		for(mapNumber = 0; mapNumber < binaryStrings.length; mapNumber++){
+			binaryStringForNumber = binaryStrings[mapNumber];
+			
+			for(stopIndex = 0; stopIndex < numOptionalStops; stopIndex++){
+				stopNumber = stopIndex+1;
+				currentStop = document.getElementById("tripStop" + stopNumber);
+				if(binaryStringForNumber.charAt(stopIndex) == '1'){
+					document.getElementById("route" + mapNumber + "InfoHeader").innerHTML+=
+	        			stopNumber + "-";
+				}
+			}
 		}
-		directionsService.route(request, function(result, status) {
-	        if (status == google.maps.DirectionsStatus.OK) {
-	          directionsDisplayAll[0].setDirections(result);
-	          renderInitialDirectionResult(result);
-	        }
-	    });
-	    
-	    //writes the rest of the directions
-        for(optionIndex = 1; optionIndex < binaryStrings.length; optionIndex++){
-        	getDirections(optionIndex,start,end);
-        }
+		
+	  		
+		// initializeAllMaps(); 
+		// var optionIndex;
+        // var start = document.getElementById("tripStart").value;
+        // var end = document.getElementById("tripEnd").value;
+//         
+        // //writes the base directions, no stops
+        // var request = {
+		// origin:start,
+		// destination:end,
+		// travelMode: google.maps.TravelMode.DRIVING
+		// }
+		// directionsService.route(request, function(result, status) {
+	        // if (status == google.maps.DirectionsStatus.OK) {
+	          // directionsDisplayAll[0].setDirections(result);
+	          // renderInitialDirectionResult(result);
+	        // }
+	    // });
+// 	    
+	    // //writes the rest of the directions
+        // for(optionIndex = 1; optionIndex < binaryStrings.length; optionIndex++){
+        	// getDirections(optionIndex,start,end);
+        // }
           
                    
 }
