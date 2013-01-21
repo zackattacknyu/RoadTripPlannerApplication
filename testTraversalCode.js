@@ -4,18 +4,18 @@ function renderOptions(){
 
 function TestHash(){
 	var stopsHash = new stopsVisitedHashMap(3);
-	stopsHash.addStop(2,1);
-	stopsHash.addStop(3,2);
-	stopsHash.addStop(1,3);
-	var sampletraverse = new Traversal(stopsHash,1);
+	var sampletraverse = new Traversal(stopsHash,0);
+	sampletraverse.addStop(2);
+	sampletraverse.addStop(3);
 	var resultStr = getTraversalString(sampletraverse);
 	return resultStr;
 }
 
 function getTraversalString(traversal){
 	var str = "";
-	for(var ind = 1; ind <= traversal.currentStopsVisitedMap.numberOfStops; ind++){
-		str += traversal.currentStopsVisitedMap.stopsVisitedInOrder[ind] + " - ";
+	var traversalSequence = traversal.getSequence();
+	for(var ind = 0; ind < traversalSequence.length; ind++){
+		str += traversalSequence[ind] + " - ";
 	}
 	return str;
 }
@@ -26,6 +26,18 @@ function Traversal(stopsVisitedMap,currentStepNumber){
 	this.timeSoFar = 0;
 	this.distanceSoFar = 0; 
 	
+	this.addStop = function(stopNum){
+		this.currentStep = this.currentStep + 1;
+		this.currentStopsVisitedMap.addStop(stopNum,this.currentStep);
+	}
+	
+	this.getSequence = function(){
+		var theSeq = new Array();
+		for(var stopNum = 1; stopNum <= this.currentStep; stopNum++){
+			theSeq[stopNum-1] = this.currentStopsVisitedMap.stopsVisitedInOrder[stopNum];
+		}
+		return theSeq;
+	}
 }
 function stopsVisitedHashMap(numStops){
 	this.stopsVisitedInOrder = new Array();
