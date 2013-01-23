@@ -5,9 +5,8 @@ function renderOptions(){
 function TestHash(){
 	var stopsHash = new stopsVisitedHashMap(3);
 	var sampletraverse = new Traversal(stopsHash,0);
-	sampletraverse.addStop(2);
-	sampletraverse.addStop(3);
 	var resultStr = getTraversalString(sampletraverse);
+	DfsTraverse(sampletraverse,3);
 	return resultStr;
 }
 
@@ -18,6 +17,19 @@ function getTraversalString(traversal){
 		str += traversalSequence[ind] + " - ";
 	}
 	return str;
+}
+
+function DfsTraverse(traversal,numStops){
+	console.log(getTraversalString(traversal));
+	var currentTraversal;
+	
+	for(var stopNum = 1; stopNum <= numStops; stopNum++){
+		if(traversal.currentStopsVisitedMap.DoesNotContainStop(stopNum)){
+			currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
+			currentTraversal.addStop(stopNum);
+			DfsTraverse(currentTraversal,numStops);
+		}
+	}
 }
 
 function Traversal(stopsVisitedMap,currentStepNumber){
