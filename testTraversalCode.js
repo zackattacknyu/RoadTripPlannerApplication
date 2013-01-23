@@ -1,12 +1,17 @@
+var traversalStrings = new Array();
+
 function renderOptions(){
 	$("#TestString").html("Traversals are: </br>" + TestHash());
 }
 
 function TestHash(){
-	var stopsHash = new stopsVisitedHashMap(3);
-	var sampletraverse = new Traversal(stopsHash,0);
-	var resultStr = getTraversalString(sampletraverse);
-	DfsTraverse(sampletraverse,3);
+	DoDfsSearch(3);
+	for(var ind = 0; ind < traversalStrings.length; ind++){
+		console.log(traversalStrings[ind]);
+	}
+	//console.log("Now onto DFS");
+	//DoDfsSearch(3);
+	var resultStr = "Finished";
 	return resultStr;
 }
 
@@ -19,8 +24,22 @@ function getTraversalString(traversal){
 	return str;
 }
 
+function DoDfsSearch(numStops){
+	var stopsHash = new stopsVisitedHashMap(numStops);
+	var sampletraverse = new Traversal(stopsHash,0);
+	DfsTraverse(sampletraverse,numStops);
+}
+
+function DoBfsSearch(numStops){
+	var stopsHash = new stopsVisitedHashMap(numStops);
+	var sampletraverse = new Traversal(stopsHash,0);
+	for(var numStopsToHave = 0; numStopsToHave <= numStops; numStopsToHave++){
+		BfsTraverse(sampletraverse,0,numStopsToHave,numStops);
+	}
+}
+
 function DfsTraverse(traversal,numStops){
-	console.log(getTraversalString(traversal));
+	traversalStrings.push(getTraversalString(traversal));
 	var currentTraversal;
 	
 	for(var stopNum = 1; stopNum <= numStops; stopNum++){
@@ -28,6 +47,23 @@ function DfsTraverse(traversal,numStops){
 			currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
 			currentTraversal.addStop(stopNum);
 			DfsTraverse(currentTraversal,numStops);
+		}
+	}
+}
+
+function BfsTraverse(traversal,numStopsSoFar,numStopsAllowed,totalNumStops){
+	var currentTraversal;
+	
+	if(numStopsSoFar == numStopsAllowed){
+		traversalStrings.push(getTraversalString(traversal));
+	}
+	else{
+		for(var stopNum = 1; stopNum <= totalNumStops; stopNum++){
+			if(traversal.currentStopsVisitedMap.DoesNotContainStop(stopNum)){
+				currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
+				currentTraversal.addStop(stopNum);
+				BfsTraverse(currentTraversal,numStopsSoFar+1,numStopsAllowed,totalNumStops);
+			}
 		}
 	}
 }
