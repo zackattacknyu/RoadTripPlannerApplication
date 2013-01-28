@@ -6,23 +6,25 @@ body
 {
 	width: 1000px;
 	height: 200px;
-	width: 1000px;
 	margin-top: 2px;
 	margin-bottom: 2px;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
 }
+#PointsInput{
+	float: left; 
+	position: relative; 
+	width: 40%; 
+	height:50%; 
+}
 .generalTable
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
-	margin: 0;
-	border-collapse: collapse;
+	/*margin: 0;
+	border-collapse: collapse;*/
 	text-align: left;
-	float: left; 
-	position: relative; 
-	width: 25%; height:50%; 
 	padding: 0;
 }
 .generalTable th
@@ -40,3 +42,19 @@ body
 {
 	color: #009;
 }
+.stopNumberColumn{
+	width: 30px;
+}
+.inputTextColumn{
+	width: 500px;
+}
+.removeButtonColumn{
+	width: 100px;
+}
+.requiredCheckboxColumn{
+	width: 20px;
+}
+.requiredTextColumn{
+	width: 40px
+}
+

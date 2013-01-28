@@ -8,7 +8,7 @@ $(document).ready(function () {
         $('#addStopButton').bind('click',function() {
         	var stops = $("#stopsForm");
         	var newRowStopHtml = "<tr id=\"stop" + nextStopNumber + "Row\"><td id=\"stop" + nextStopNumber + "Label\">" + nextStopNumber +"</td>";
-        	newRowStopHtml += "<td><input type=\"text\" id=\"stop" + nextStopNumber +"Input\"/></td>";
+        	newRowStopHtml += "<td><input type=\"text\" id=\"stop" + nextStopNumber +"Input\" size=\"75\"/></td>";
         	newRowStopHtml += "<td><input type=\"button\" id=\"stop" + nextStopNumber + "RemoveButton\" value=\"Remove Stop\" onclick=\"removeStop(" + nextStopNumber + ")\"/></td>";
         	newRowStopHtml += "<td id=\"stop" + nextStopNumber + "RequiredText\">Required?</td>";
         	newRowStopHtml += "<td><input type=\"checkbox\" id=\"stop" + nextStopNumber + "RequiredCheckbox\"/></td>"

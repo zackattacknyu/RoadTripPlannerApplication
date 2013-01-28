@@ -24,23 +24,24 @@
 	<body>
 		<img id="bannerPhoto" src="images/Mojave_Desert_Cropped.png" alt="Photo cannot be displayed"/>
 		<div id="mainPage">
+			<!-- This is the table with the stops form-->
 			<div id="PointsInput">
 				<table id="routeOptionsTable" class="generalTable">
 					<tbody id="stopsForm">
 						<tr id="stop1Row">
-							<td>
+							<td class="stopNumberColumn">
 								1	
 							</td>
-							<td>
-								<input type="text" id="stop1Input"/>
+							<td class="inputTextColumn">
+								<input type="text" id="stop1Input" size="75"/>
 							</td>
-							<td>
+							<td class="removeButtonColumn">
 								<input type="button" id="stop1RemoveButton" value="Remove Stop" onclick="removeStop(1)"/>
 							</td>
-							<td id="stop1RequiredText">
+							<td id="stop1RequiredText" class="requiredTextColumn">
 								Required?
 							</td>
-							<td>
+							<td class="requiredCheckboxColumn">
 								<input type="checkbox" id="stop1RequiredCheckbox"/>
 							</td>
 						</tr>
@@ -49,7 +50,7 @@
 								2
 							</td>
 							<td>
-								<input type="text" id="stop2Input">
+								<input type="text" id="stop2Input" size="75">
 							</td>
 							<td>
 								<input type="button" id="stop2RemoveButton" value="Remove Stop" onclick="removeStop(2)"/>
@@ -62,20 +63,12 @@
 							</td>
 						</tr>
 					</tbody>
-					<tbody>
-						<tr>
-							<td>
-								<input type="button" id="addStopButton" value="Add Stop"/>
-							</td>
-							<td>
-								<input type="button" id="multiStopRenderer" value="Calculate Additional Time"/>
-							</td>
-							<td>
-								<input type="button" id="accurateTimeEstimator" value="Estimate Trip Time"/>
-							</td>
-						</tr>
-					</tbody>
 				</table>
+				<div id="optionButtons">
+					<input type="button" id="addStopButton" value="Add Stop"/>
+					<input type="button" id="multiStopRenderer" value="Calculate Additional Time"/>
+					<input type="button" id="accurateTimeEstimator" value="Estimate Trip Time"/>
+				</div>
 			</div>
 			<div id="SampleResultTable">
 					<table id="Table1" class="generalTable">
