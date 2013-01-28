@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>Road Trip Planner</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Zach" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+		<style src="text/css">
+			<!--
+			@import url("style.css");
+			-->
+		</style>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="RoadTripPlannerReleaseScript.js"></script>
+	</head>
+
+	<body>
+		<img id="bannerPhoto" src="images/Mojave_Desert_Cropped.JPG" alt="Photo cannot be displayed"/>
+		<div id="mainPage">
+			<div id="PointsInput">
+				<table id="routeOptionsTable" class="generalTable">
+					<tbody id="stopsForm">
+						<tr id="stop1Row">
+							<td>
+								1	
+							</td>
+							<td>
+								<input type="text" id="stop1Input"/>
+							</td>
+							<td>
+								<input type="button" id="stop1RemoveButton" value="Remove Stop" onclick="removeStop(1)"/>
+							</td>
+							<td id="stop1RequiredText">
+								Required?
+							</td>
+							<td>
+								<input type="checkbox" id="stop1RequiredCheckbox"/>
+							</td>
+						</tr>
+						<tr id="stop2Row">
+							<td>
+								2
+							</td>
+							<td>
+								<input type="text" id="stop2Input">
+							</td>
+							<td>
+								<input type="button" id="stop2RemoveButton" value="Remove Stop" onclick="removeStop(2)"/>
+							</td>
+							<td id="stop2RequiredText">
+								Required?
+							</td>
+							<td>
+								<input type="checkbox" id="stop2RequiredCheckbox"/>
+							</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<td>
+								<input type="button" id="addStopButton" value="Add Stop"/>
+							</td>
+							<td>
+								<input type="button" id="multiStopRenderer" value="Calculate Additional Time"/>
+							</td>
+							<td>
+								<input type="button" id="accurateTimeEstimator" value="Estimate Trip Time"/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="SampleResultTable">
+					<table id="Table1" class="generalTable">
+						<thead>
+							<tr>
+								<td>
+									Sequence of Stops
+								</td>
+								<td>
+									Added Time
+								</td>
+								<td>
+									Added Distance
+								</td>
+							</tr>
+						</thead>
+						<tbody id="Results">
+							<tr>
+								<td>
+									s-2-3-4-s
+								</td>
+								<td>
+									20 minutes
+								</td>
+								<td>
+									50 miles
+								</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+		</div>
+	</body>
+</html>

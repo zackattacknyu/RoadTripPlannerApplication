@@ -1,0 +1,42 @@
+body
+{
+	background-color: rgb(192,192,188);
+}
+#bannerPhoto
+{
+	width: 1000px;
+	height: 200px;
+	width: 1000px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.generalTable
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 0;
+	border-collapse: collapse;
+	text-align: left;
+	float: left; 
+	position: relative; 
+	width: 25%; height:50%; 
+	padding: 0;
+}
+.generalTable th
+{
+	font-size: 14px;
+	font-weight: normal;
+	/*padding: 10px 8px;*/
+	/*border-bottom: 2px solid #6678b1;*/
+}
+.generalTable td
+{
+	/*border-bottom: 1px solid #ccc;*/
+}
+.generalTable tbody tr:hover td
+{
+	color: #009;
+}
