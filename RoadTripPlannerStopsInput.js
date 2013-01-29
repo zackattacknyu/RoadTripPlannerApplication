@@ -1,3 +1,10 @@
+/*This set of functions is used for the stops input form. 
+ * It can be used to add stops to the list of stops
+ * 		and remove a stop from the existing list. 
+ * It works like google directions where you can add destinations
+ * 		and go to individual ones and remove them. 
+ */
+
 var nextStopNumber = 3;
 $(document).ready(function () {
 		
@@ -15,7 +22,7 @@ $(document).ready(function () {
         	newRowStopHtml += "</tr>";
         	stops.append(newRowStopHtml);
         	
-        	//first stop added
+        	//if this is the first stop added to the list
         	if(nextStopNumber == 3){
         		$("#stop1RemoveButton").show();
 				$("#stop2RemoveButton").show();	
@@ -26,11 +33,22 @@ $(document).ready(function () {
         })
 });
 
-//removes a stop from the list
+/*
+ * This removes a stop from the list. When you remove a stop
+ * 		from the list, the ones after it get moved down a number. 
+ * This script accomodates that. Since all the attributes are changing
+ * 		when you move the stops, including the IDs, the stops are put
+ * 		into arrays first and then the information on them is changed. 
+ * If you try to change it on the fly, there will be naming conflicts
+ * 		since we are changing the IDs. 
+ */
 function removeStop(stopNumber){
 	var newStopIndex;
+	
+	//removes the stop
 	$("#stop" + stopNumber + "Row").remove();
 	
+	//initializing arrays for transfer of info on remaining stops
 	var rowsToChange = new Array();
 	var labelsToChange = new Array();
 	var inputsToChange = new Array();
@@ -39,6 +57,7 @@ function removeStop(stopNumber){
 	var requiredCheckboxesToChange = new Array();
 	var arrayIndex = 0;
 	
+	//puts the existing stops into a series of arrays
 	for(var stopIndex = stopNumber + 1; stopIndex < nextStopNumber; stopIndex++){
 		rowsToChange.push($("#stop" + stopIndex + "Row"));
 		labelsToChange.push($("#stop" + stopIndex + "Label"));
@@ -48,6 +67,7 @@ function removeStop(stopNumber){
 		requiredCheckboxesToChange.push($("#stop" + stopIndex + "RequiredCheckbox"));
 	}
 	
+	//it then uses the arrays to change the info for the remaining stops. 
 	for(var stopIndex = stopNumber + 1; stopIndex < nextStopNumber; stopIndex++){
 		newStopIndex = stopIndex - 1;	
 		rowsToChange[arrayIndex].attr('id',"stop" + newStopIndex + "Row");
@@ -80,6 +100,7 @@ function hideFirstAndLastCheckbox(){
 	$("#stop" + lastStopNumber + "RequiredText").hide();
 	$("#stop" + lastStopNumber + "RequiredCheckbox").hide();
 	
+	//makes sure the required checkbox shows for the rest of the stops
 	if(lastStopNumber > 2){
 		for(var stopNumber = 2; stopNumber < lastStopNumber; stopNumber++){
 			$("#stop" + stopNumber + "RequiredText").show();

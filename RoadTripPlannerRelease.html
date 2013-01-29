@@ -18,18 +18,20 @@
 			-->
 		</style>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<script src="RoadTripPlannerReleaseScript.js"></script>
+		<script src="RoadTripPlannerStopsInput.js"></script>
+		<script src="RoadTripPlannerStopOptionsTable.js"></script>
 	</head>
 
 	<body>
 		<img id="bannerPhoto" src="images/Mojave_Desert_Cropped.png" alt="Photo cannot be displayed"/>
 		<div id="mainPage">
-			<!-- This is the table with the stops form-->
+			<!-- This is the table with the stops form
+				-->
 			<div id="PointsInput">
 				<table id="routeOptionsTable" class="generalTable">
 					<tbody id="stopsForm">
 						<tr id="stop1Row">
-							<td class="stopNumberColumn">
+							<td class="stopNumberColumn" id="stop1Label">
 								1	
 							</td>
 							<td class="inputTextColumn">
@@ -46,7 +48,7 @@
 							</td>
 						</tr>
 						<tr id="stop2Row">
-							<td>
+							<td id="stop2Label">
 								2
 							</td>
 							<td>
@@ -66,22 +68,16 @@
 				</table>
 				<div id="optionButtons">
 					<input type="button" id="addStopButton" value="Add Stop"/>
-					<input type="button" id="multiStopRenderer" value="Calculate Additional Time"/>
+					<input type="button" id="multiStopRenderer" value="Calculate Additional Time" onclick="getStopOptions()"/>
 					<input type="button" id="accurateTimeEstimator" value="Estimate Trip Time"/>
 				</div>
 			</div>
-			<div id="SampleResultTable">
-					<table id="Table1" class="generalTable">
+			<div id="stopOptionsSection">
+					<table id="stopOptionsTable" class="generalTable">
 						<thead>
 							<tr>
 								<td>
 									Sequence of Stops
-								</td>
-								<td>
-									Added Time
-								</td>
-								<td>
-									Added Distance
 								</td>
 							</tr>
 						</thead>
@@ -89,12 +85,6 @@
 							<tr>
 								<td>
 									s-2-3-4-s
-								</td>
-								<td>
-									20 minutes
-								</td>
-								<td>
-									50 miles
 								</td>
 							</tr>
 						</tbody>

@@ -42,6 +42,7 @@ body
 {
 	color: #009;
 }
+/*This is used for the column widths of the stops form table*/
 .stopNumberColumn{
 	width: 30px;
 }
