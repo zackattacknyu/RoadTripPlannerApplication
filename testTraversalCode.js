@@ -5,7 +5,7 @@ function renderOptions(){
 }
 
 function TestHash(){
-	DoDfsSearch(3);
+	DoDfsSearchInOrder(3);
 	for(var ind = 0; ind < traversalStrings.length; ind++){
 		console.log(traversalStrings[ind]);
 	}
@@ -38,12 +38,26 @@ function DoBfsSearch(numStops){
 	}
 }
 
+function DoDfsSearchInOrder(numStops){
+	var stopsHash = new stopsVisitedHashMap(numStops);
+	var sampletraverse = new Traversal(stopsHash,0);
+	DfsTraverseInOrder(sampletraverse,numStops);
+}
+
+function DoBfsSearchInOrder(numStops){
+	var stopsHash = new stopsVisitedHashMap(numStops);
+	var sampletraverse = new Traversal(stopsHash,0);
+	for(var numStopsToHave = 0; numStopsToHave <= numStops; numStopsToHave++){
+		BfsTraverseInOrder(sampletraverse,0,numStopsToHave,numStops);
+	}
+}
+
 function DfsTraverse(traversal,numStops){
 	traversalStrings.push(getTraversalString(traversal));
 	var currentTraversal;
 	
 	for(var stopNum = 1; stopNum <= numStops; stopNum++){
-		if(traversal.currentStopsVisitedMap.DoesNotContainStop(stopNum)){
+		if(traversal.doesNotContainStop(stopNum)){
 			currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
 			currentTraversal.addStop(stopNum);
 			DfsTraverse(currentTraversal,numStops);
@@ -59,10 +73,40 @@ function BfsTraverse(traversal,numStopsSoFar,numStopsAllowed,totalNumStops){
 	}
 	else{
 		for(var stopNum = 1; stopNum <= totalNumStops; stopNum++){
-			if(traversal.currentStopsVisitedMap.DoesNotContainStop(stopNum)){
+			if(traversal.doesNotContainStop(stopNum)){
 				currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
 				currentTraversal.addStop(stopNum);
 				BfsTraverse(currentTraversal,numStopsSoFar+1,numStopsAllowed,totalNumStops);
+			}
+		}
+	}
+}
+
+function DfsTraverseInOrder(traversal,numStops){
+	traversalStrings.push(getTraversalString(traversal));
+	var currentTraversal;
+	
+	for(var stopNum = 1; stopNum <= numStops; stopNum++){
+		if(traversal.doesNotContainStop(stopNum) && traversal.isStopGreaterThanLast(stopNum)){
+			currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
+			currentTraversal.addStop(stopNum);
+			DfsTraverseInOrder(currentTraversal,numStops);
+		}
+	}
+}
+
+function BfsTraverseInOrder(traversal,numStopsSoFar,numStopsAllowed,totalNumStops){
+	var currentTraversal;
+	
+	if(numStopsSoFar == numStopsAllowed){
+		traversalStrings.push(getTraversalString(traversal));
+	}
+	else{
+		for(var stopNum = 1; stopNum <= totalNumStops; stopNum++){
+			if(traversal.doesNotContainStop(stopNum) && traversal.isStopGreaterThanLast(stopNum)){
+				currentTraversal = new Traversal(traversal.currentStopsVisitedMap,traversal.currentStep);
+				currentTraversal.addStop(stopNum);
+				BfsTraverseInOrder(currentTraversal,numStopsSoFar+1,numStopsAllowed,totalNumStops);
 			}
 		}
 	}
@@ -79,6 +123,18 @@ function Traversal(stopsVisitedMap,currentStepNumber){
 		this.currentStopsVisitedMap.addStop(stopNum,this.currentStep);
 	}
 	
+	this.doesNotContainStop = function(stopNum){
+		return this.currentStopsVisitedMap.DoesNotContainStop(stopNum);
+	}
+	
+	this.isStopGreaterThanLast = function(stopNum){
+		return (stopNum > this.currentStopsVisitedMap.lastStopVisited);
+	}
+	
+	this.getLastStopVisited = function(){
+		return this.currentStopsVisitedMap.lastStopVisited;
+	}
+	
 	this.getSequence = function(){
 		var theSeq = new Array();
 		for(var stopNum = 1; stopNum <= this.currentStep; stopNum++){
@@ -91,6 +147,8 @@ function stopsVisitedHashMap(numStops){
 	this.stopsVisitedInOrder = new Array();
 	this.stepNumberPerStop = new Array();
 	this.numberOfStops = numStops;
+	this.lastStopVisited = 0;
+	
 	for(var index = 0; index <= numStops; index++){
 		this.stopsVisitedInOrder[index] = 0;
 		this.stepNumberPerStop[index] = 0;
@@ -102,7 +160,8 @@ function stopsVisitedHashMap(numStops){
 	
 	this.addStop = function(stopNumber, stepNumber){
 		this.stopsVisitedInOrder[stepNumber] = stopNumber;
-		this.stepNumberPerStop[stopNumber] = stepNumber; 
+		this.stepNumberPerStop[stopNumber] = stepNumber;
+		this.lastStopVisited = stopNumber; 
 	}
 	
 	this.getClone = function(){
@@ -110,6 +169,7 @@ function stopsVisitedHashMap(numStops){
 		for(var index = 0; index <= this.numberOfStops; index++){
 			clone.stepNumberPerStop[index] = this.stepNumberPerStop[index];
 			clone.stopsVisitedInOrder[index] = this.stopsVisitedInOrder[index];
+			clone.lastStopVisited = this.lastStopVisited;
 		}
 		return clone;
 	}
