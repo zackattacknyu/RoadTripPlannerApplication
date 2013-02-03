@@ -1,4 +1,5 @@
 var traversalStrings = new Array();
+var traversalArrays = new Array();
 
 function renderOptions(){
 	$("#TestString").html("Traversals are: </br>" + TestHash());
@@ -6,8 +7,8 @@ function renderOptions(){
 
 function TestHash(){
 	DoDfsSearchInOrder(3);
-	for(var ind = 0; ind < traversalStrings.length; ind++){
-		console.log(traversalStrings[ind]);
+	for(var ind = 0; ind < traversalArrays.length; ind++){
+		console.log(getTraversalString(traversalArrays[ind]));
 	}
 	//console.log("Now onto DFS");
 	//DoDfsSearch(3);
@@ -15,9 +16,8 @@ function TestHash(){
 	return resultStr;
 }
 
-function getTraversalString(traversal){
+function getTraversalString(traversalSequence){
 	var str = "";
-	var traversalSequence = traversal.getSequence();
 	for(var ind = 0; ind < traversalSequence.length; ind++){
 		str += traversalSequence[ind] + " - ";
 	}
@@ -53,7 +53,7 @@ function DoBfsSearchInOrder(numStops){
 }
 
 function DfsTraverse(traversal,numStops){
-	traversalStrings.push(getTraversalString(traversal));
+	traversalArrays.push(traversal.getSequence());
 	var currentTraversal;
 	
 	for(var stopNum = 1; stopNum <= numStops; stopNum++){
@@ -69,7 +69,7 @@ function BfsTraverse(traversal,numStopsSoFar,numStopsAllowed,totalNumStops){
 	var currentTraversal;
 	
 	if(numStopsSoFar == numStopsAllowed){
-		traversalStrings.push(getTraversalString(traversal));
+		traversalArrays.push(traversal.getSequence());
 	}
 	else{
 		for(var stopNum = 1; stopNum <= totalNumStops; stopNum++){
@@ -83,7 +83,7 @@ function BfsTraverse(traversal,numStopsSoFar,numStopsAllowed,totalNumStops){
 }
 
 function DfsTraverseInOrder(traversal,numStops){
-	traversalStrings.push(getTraversalString(traversal));
+	traversalArrays.push(traversal.getSequence());
 	var currentTraversal;
 	
 	for(var stopNum = 1; stopNum <= numStops; stopNum++){
@@ -99,7 +99,7 @@ function BfsTraverseInOrder(traversal,numStopsSoFar,numStopsAllowed,totalNumStop
 	var currentTraversal;
 	
 	if(numStopsSoFar == numStopsAllowed){
-		traversalStrings.push(getTraversalString(traversal));
+		traversalArrays.push(traversal.getSequence());
 	}
 	else{
 		for(var stopNum = 1; stopNum <= totalNumStops; stopNum++){
@@ -131,9 +131,6 @@ function Traversal(stopsVisitedMap,currentStepNumber){
 		return (stopNum > this.currentStopsVisitedMap.lastStopVisited);
 	}
 	
-	this.getLastStopVisited = function(){
-		return this.currentStopsVisitedMap.lastStopVisited;
-	}
 	
 	this.getSequence = function(){
 		var theSeq = new Array();
