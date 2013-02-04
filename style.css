@@ -19,10 +19,14 @@ body
 	height:50%; 
 }
 #stopOptionsSection{
-	float: left;
+	float: right;
 	position: relative;
 	width: 60%;
 	height: 50%;
+}
+.optionsTableHeader{
+	font-size: 14px;
+	font-weight: bold;
 }
 .generalTable
 {
@@ -53,7 +57,7 @@ body
 	width: 30px;
 }
 .inputTextColumn{
-	width: 500px;
+	width: 25%;
 }
 .removeButtonColumn{
 	width: 100px;
@@ -64,4 +68,19 @@ body
 .requiredTextColumn{
 	width: 40px
 }
-
+/*This is for the column widths of the stop options table*/
+.stopSequenceColumn{
+	width: 200px;
+}
+.addedTimeColumn{
+	width: 150px;
+}
+.addedDistanceColumn{
+	width: 150px;
+}
+.showDirectionsColumn{
+	width: 80px;
+}
+.timeEstimatorColumn{
+	width: 80px
+}
