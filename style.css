@@ -13,42 +13,57 @@ body
 	display: block;
 }
 #PointsInput{
-	float: left; 
-	position: relative; 
-	width: 40%; 
-	height:50%; 
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
 }
 #stopOptionsSection{
-	float: right;
-	position: relative;
-	width: 60%;
-	height: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+.routeSectionHeader{
+	font-size: 12px;
+	font-weight: bold;
 }
 .optionsTableHeader{
 	font-size: 14px;
 	font-weight: bold;
 }
-.generalTable
+.stopsTable
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
-	/*margin: 0;
-	border-collapse: collapse;*/
 	text-align: left;
 	padding: 0;
 }
-.generalTable th
+.stopsTable th
 {
 	font-size: 14px;
 	font-weight: normal;
-	/*padding: 10px 8px;*/
-	/*border-bottom: 2px solid #6678b1;*/
 }
-.generalTable td
+.stopsTable tbody tr:hover td
 {
-	/*border-bottom: 1px solid #ccc;*/
+	color: #009;
 }
-.generalTable tbody tr:hover td
+.optionsTable
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	text-align: left;
+	padding: 0;
+}
+.optionsTable th
+{
+	font-size: 14px;
+	font-weight: normal;
+	border-bottom: 2px solid rgb(14,33,216);
+}
+.optionsTable td
+{
+	border-bottom: 1px solid rgb(14,33,216);
+}
+.optionsTable tbody tr:hover td
 {
 	color: #009;
 }
