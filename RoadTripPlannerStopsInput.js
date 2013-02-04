@@ -5,10 +5,9 @@
  * 		and go to individual ones and remove them. 
  */
 
-var nextStopNumber = 3;
+var nextStopNumber = 4;
 $(document).ready(function () {
 		
-		hideRemoveButtons();
 		hideFirstAndLastCheckbox();
 		
 		//this adds a stop to the form
@@ -22,11 +21,10 @@ $(document).ready(function () {
         	newRowStopHtml += "</tr>";
         	stops.append(newRowStopHtml);
         	
-        	//if this is the first stop added to the list
         	if(nextStopNumber == 3){
-        		$("#stop1RemoveButton").show();
-				$("#stop2RemoveButton").show();	
+        		showRemoveButtons();
         	}
+        	
 			nextStopNumber++;
 			
 			hideFirstAndLastCheckbox();
@@ -83,6 +81,11 @@ function removeStop(stopNumber){
 	}
 	
 	nextStopNumber--;
+	
+	if(nextStopNumber == 3){
+		hideRemoveButtons();
+	}
+	
 	hideFirstAndLastCheckbox();
 }
 
@@ -90,6 +93,12 @@ function removeStop(stopNumber){
 function hideRemoveButtons(){
 	$("#stop1RemoveButton").hide();
 	$("#stop2RemoveButton").hide();		
+}
+
+//makes sure stop 1 and 2 have remove button shown after they are not the only ones left
+function showRemoveButtons(){
+	$("#stop1RemoveButton").show();
+	$("#stop2RemoveButton").show();		
 }
 
 //hides the required checkbox for the first and last stop, since those are the start and end
