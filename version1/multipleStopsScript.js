@@ -105,7 +105,7 @@ function addOptionalStop(){
 		 * 		so the number of optional stops must be limited
 		 * 		to three. 
 		 */
-        if(numOptionalStops < 3){
+        if(numOptionalStops < 2){
         	numOptionalStops++;
             var currentInnerHTML=document.getElementById("StopsForm").innerHTML;
             var newInnerHTML=currentInnerHTML += "<div id=\"Stop" + numOptionalStops + "TextLabel\">" + 
