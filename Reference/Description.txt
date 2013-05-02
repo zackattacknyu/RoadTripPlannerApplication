@@ -1,0 +1,22 @@
+The application will do the following:
+
+- Take in a list of required and optional stops 
+- It will then list all the optional stop sequences. 
+	- Can be forced to only display ordered sequences (i.e. s-2-1-e is not allowed)
+	- Can be sorted in Breadth-first or depth-first order. 
+- With any of the rendered sequences as well as in the beginning, there will be the option of doing the accurate time estimator
+- It will render by required stops
+	
+
+The following will be needed:
+
+- A package that converts units
+	- Duration, Distance, Velocity are required
+	- Distance value will be in meters.
+		- can be converted to km or miles
+	- Distance value will be in seconds
+		- can be converted to minutes. 
+	- Velocity will take in meters and seconds
+		- be convertable to km/hour or mi/hour
+	- There will also be a class to take in mi/hour or km/hour and meters 
+		and then convert that to total minutes it will take. 
