@@ -1,4 +1,4 @@
-package com.zrd.rtp.model.testClasses;
+package com.zrd.rtp.model.test;
 
 import com.zrd.rtp.model.measurements.Distance;
 import com.zrd.rtp.model.measurements.Duration;

@@ -1,4 +1,4 @@
-package com.zrd.rtp.model.testClasses;
+package com.zrd.rtp.model.test;
 
 import java.util.Hashtable;
 import java.util.Iterator;
