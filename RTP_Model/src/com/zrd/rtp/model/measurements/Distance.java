@@ -49,13 +49,8 @@ public class Distance extends Measurement{
 	}
 
 	@Override
-	public Measurement add(Measurement val) {
-		return new Distance(getValue() + val.getValue());
-	}
-
-	@Override
-	public Measurement subtract(Measurement val) {
-		return new Distance(getValue() - val.getValue());
+	protected Measurement constructUsingValue(double value) {
+		return constructUsingMeters(value);
 	}
 
 	

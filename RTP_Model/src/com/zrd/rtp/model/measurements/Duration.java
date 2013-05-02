@@ -81,16 +81,6 @@ public class Duration extends Measurement {
 		}
 	}
 
-	@Override
-	public Measurement add(Measurement val) {
-		return new Duration(getValue() + val.getValue());
-	}
-
-	@Override
-	public Measurement subtract(Measurement val) {
-		return new Duration(getValue() - val.getValue());
-	}
-
 	/**
 	 * This method is NOT SUPPORTED. Use toString() to get the text 
 	 * 		for the duration. 
@@ -107,6 +97,11 @@ public class Duration extends Measurement {
 	@Override
 	public String getImperialText() {
 		throw new UnsupportedOperationException("Durations do not vary by metric or imperial. Use toString to get the text.");
+	}
+
+	@Override
+	protected Measurement constructUsingValue(double value) {
+		return constructUsingSeconds(value);
 	}
 
 

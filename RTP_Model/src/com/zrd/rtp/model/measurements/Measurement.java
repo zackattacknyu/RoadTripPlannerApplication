@@ -15,7 +15,9 @@ public abstract class Measurement implements Comparable<Measurement>{
 	 * @param val		the measurement to add to the current one
 	 * @return			the resultant measurement
 	 */
-	public abstract Measurement add(Measurement val);
+	public Measurement add(Measurement val){
+		return constructUsingValue(getValue() + val.getValue());
+	}
 	
 	/**
 	 * This will subtract the passed in measurement from the current measurement and 
@@ -23,13 +25,17 @@ public abstract class Measurement implements Comparable<Measurement>{
 	 * @param val		the measurement to subtract from the current one
 	 * @return			the resultant measurement
 	 */
-	public abstract Measurement subtract(Measurement val);
+	public Measurement subtract(Measurement val){
+		return constructUsingValue(getValue() - val.getValue());
+	}
 	
 	/**
 	 * This returns the text in the default metric unit
 	 * @return		string in default metric unit
 	 */
 	public abstract String getMetricText();
+	
+	protected abstract Measurement constructUsingValue(double value);
 	
 	/**
 	 * This returns the text in the default imperial unit

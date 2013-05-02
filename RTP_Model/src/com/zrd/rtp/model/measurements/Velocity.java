@@ -99,6 +99,11 @@ public class Velocity extends Measurement{
 	public Measurement subtract(Measurement val) {
 		throw new UnsupportedOperationException("This application does not support subtracting velocities");
 	}
+
+	@Override
+	protected Measurement constructUsingValue(double value) {
+		throw new UnsupportedOperationException("This application does not support constructing velocities using meters per second");
+	}
 	
 	
 
