@@ -46,8 +46,8 @@ public class Duration extends Measurement {
 	
 	/**
 	 * This contructs the duration string, which will have either one of the following forms:
-	 * 		x mins
-	 * 		x hrs y mins
+	 * 		"x mins" or 
+	 * 		"x hrs y mins".
 	 * 
 	 * Days will NOT be included for reasons explained above. 
 	 * @return		duration text string
@@ -84,6 +84,7 @@ public class Duration extends Measurement {
 	/**
 	 * This method is NOT SUPPORTED. Use toString() to get the text 
 	 * 		for the duration. 
+	 * @return	Throws Exception
 	 */
 	@Override
 	public String getMetricText() {
@@ -93,12 +94,13 @@ public class Duration extends Measurement {
 	/**
 	 * This method is NOT SUPPORTED. Use toString() to get the text 
 	 * 		for the duration. 
+	 * @return	Throws Exception
 	 */
 	@Override
 	public String getImperialText() {
 		throw new UnsupportedOperationException("Durations do not vary by metric or imperial. Use toString to get the text.");
 	}
-
+	
 	@Override
 	protected Measurement constructUsingValue(double value) {
 		return constructUsingSeconds(value);

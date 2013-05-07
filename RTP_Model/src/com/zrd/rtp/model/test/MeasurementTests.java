@@ -10,6 +10,7 @@ public class MeasurementTests {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String myString;
 		Distance myDist = Distance.constructUsingMeters(130*1609.34);
 		Distance myDist2 = Distance.constructUsingMeters(545000.99);
 		Distance myDist3 = Distance.constructUsingMeters(544998);

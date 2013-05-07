@@ -9,8 +9,8 @@ package com.zrd.rtp.model.measurements;
  * 		km or miles depending on whether metric or imperial units are being used. 
  * 
  * Conversion facts used here:
- * 		1 mile = 1609.34 meters
- * 		1 km = 1000 meters
+ * 		'1 mile = 1609.34 meters' and
+ * 		'1 km = 1000 meters'
  * @author Zach DeStefano
  *
  */

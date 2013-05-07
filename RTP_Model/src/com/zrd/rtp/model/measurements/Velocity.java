@@ -12,9 +12,9 @@ package com.zrd.rtp.model.measurements;
  *  	in either miles per hour or kilometers per hour. 
  *  
  *  The following facts are used for the conversion: 
- *  	1 mile = 1609.34 meters
- *  	1 km = 1000 meters
- *  	1 hour = 3600 seconds
+ *  	'1 mile = 1609.34 meters',
+ *  	'1 km = 1000 meters', and
+ *  	'1 hour = 3600 seconds'
  *  
  * @author Zach DeStefano
  *
@@ -85,6 +85,8 @@ public class Velocity extends Measurement{
 	/**
 	 * This method is NOT SUPPORTED. There is no use in the application for adding velocities
 	 * 		together. 
+	 * @param val		NOT SUPPORTED
+	 * @return			Nothing. Exception will be thrown.
 	 */
 	@Override
 	public Measurement add(Measurement val) {
@@ -94,6 +96,8 @@ public class Velocity extends Measurement{
 	/**
 	 * This method is NOT SUPPORTED. There is no use in the application for subtracting velocities
 	 * 		together. 
+	 * @param val		NOT SUPPORTED
+	 * @return			Nothing. Exception will be thrown.
 	 */
 	@Override
 	public Measurement subtract(Measurement val) {

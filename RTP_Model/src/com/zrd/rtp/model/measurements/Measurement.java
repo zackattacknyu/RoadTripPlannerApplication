@@ -43,7 +43,7 @@ public abstract class Measurement implements Comparable<Measurement>{
 	 */
 	public abstract String getImperialText();
 	
-	protected double value;
+	protected final double value;
 	
 	protected Measurement(double value){
 		this.value = value;
@@ -84,7 +84,7 @@ public abstract class Measurement implements Comparable<Measurement>{
 	
 	/**
 	 * This sees if two values are equal by seeing if compareTo results
-	 * 		in 0. For information on that logic, look at compareTo
+	 * 		in 0. For information on that logic, look at compareTo. 
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -96,8 +96,8 @@ public abstract class Measurement implements Comparable<Measurement>{
 	}
 
 	/**
-	 * This finds the default locale and if it is US, then it calls getImperialText()
-	 * 		Otherwise, it calls getMetricText()
+	 * This finds the default locale and if it is US, then it calls getImperialText().
+	 * 		Otherwise, it calls getMetricText().
 	 */
 	@Override
 	public String toString() {
