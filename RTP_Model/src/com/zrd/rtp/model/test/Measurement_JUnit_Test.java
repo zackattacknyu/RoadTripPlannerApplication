@@ -27,6 +27,10 @@ public class Measurement_JUnit_Test {
 		testDistance(59,300);
 		testDistance(120,500);
 		
+		testVelocity(34,120,30,2);
+		testVelocity(34,120,44,2);
+		testVelocity(34,120,45,2);
+		
 		/*
 		Distance myDist = Distance.constructUsingMeters(130*1609.34);
 		
@@ -49,7 +53,7 @@ public class Measurement_JUnit_Test {
 	 * @param numKmTest
 	 */
 	public static void testDistance(int numMileTest, int numKmTest){
-		//Distance tests
+
 		Distance testMileDistance = Distance.constructUsingMeters(numMileTest*1609.34);
 		assertEquals(testMileDistance.getImperialText(),numMileTest + " mi");
 		assertEquals(testMileDistance.getRoundedValue(),(int)Math.round(numMileTest*1609.34));
@@ -69,6 +73,48 @@ public class Measurement_JUnit_Test {
 		
 		Distance sameAsCombined = Distance.constructUsingMeters(numMileTest*1609.34 + numKmTest*1000);
 		assertEquals(sameAsCombined.equals(combined),true);
+	}
+	
+	/**
+	 * This tests velocities
+	 * @param slowMPH		the miles per hour for a "slow" speed. must be slower than fastKmPH
+	 * @param fastKmPH		the km/hr for a "fast" speed which MUST be faster than slowMPH
+	 * @param numMeters		number of meters for a third speed
+	 * @param numSeconds	number of seconds for the third speed
+	 */
+	public static void testVelocity(int slowMPH, int fastKmPH, int numMeters,int numSeconds){
+
+		Velocity slowOne = Velocity.constructUsingMiPerHour(slowMPH);
+		assertEquals(slowOne.getImperialText(),slowMPH + " mi/hr");
+		assertEquals(slowOne.toString(),slowMPH + " mi/hr");
+		assertEquals(slowOne.getRoundedValue(),(int)Math.round((slowMPH*1609.34)/3600));
+		
+		Velocity fastOne = Velocity.constructUsingKmPerHour(fastKmPH);
+		assertEquals(fastOne.getMetricText(),fastKmPH + " km/hr");
+		assertEquals((int)fastOne.getValue(),(int)Math.round((fastKmPH*1000)/3600));
+		
+		assertEquals(fastOne.compareTo(slowOne),1);
+		assertEquals(slowOne.compareTo(fastOne),-1);
+		
+		Velocity otherVeloc = Velocity.constructUsingMetersAndSeconds(numMeters, numSeconds);
+		assertEquals(otherVeloc.getRoundedValue(),(int)Math.round(numMeters/numSeconds));
+
+		boolean exceptionThrown = false;
+		try{
+			slowOne.add(fastOne);
+		}catch(UnsupportedOperationException e){
+			exceptionThrown = true;
+		}
+		assertEquals(exceptionThrown,true);
+		
+		exceptionThrown = false;
+		try{
+			fastOne.subtract(slowOne);
+		}catch(UnsupportedOperationException e){
+			exceptionThrown = true;
+		}
+		assertEquals(exceptionThrown,true);
+		
 	}
 
 }
