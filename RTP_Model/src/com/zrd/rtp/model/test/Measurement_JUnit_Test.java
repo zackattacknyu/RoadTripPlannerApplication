@@ -23,15 +23,56 @@ public class Measurement_JUnit_Test {
 	@Test
 	public void test() {
 		
-		testDistance(61,120);
-		testDistance(59,300);
-		testDistance(120,500);
+		for(int numTry = 0; numTry < 1000; numTry++){
+			testDistancesUsingRandom(false);
+			testVelocityUsingRandom(false);
+			testDurationUsingRandom(false);
+		}
 		
-		testVelocity(34,120,30,2);
-		testVelocity(34,120,44,2);
-		testVelocity(34,120,45,2);
+	}
+	
+	public static void testDistancesUsingRandom(boolean debug){
+		int randomNumMiles = (int)(Math.random()*30000 + 50);
+		int randomNumKm = (int)(Math.random()*45000 + 50 + randomNumMiles*2);
 		
-		testDuration(45,50,28,60,120,100,200);
+		if(debug){
+			System.out.println(String.format("Testing Distance with parameters: %s,%s", randomNumMiles,randomNumKm));
+		}
+		
+		testDistance(randomNumMiles,randomNumKm);
+	}
+	
+	public static void testVelocityUsingRandom(boolean debug){
+		int randomNumMilesPerHour = (int)(Math.random()*1000 + 10);
+		int randomNumKmPerHour = (int)(Math.random()*1600 + 17 + randomNumMilesPerHour*2);
+		int randomNumMeters = (int)(Math.random()*10000000 + 40);
+		int randomNumSeconds = (int)(Math.random()*20000 + 20);
+		
+		if(debug){
+			System.out.println(String.format("Testing Velocity with parameters: %s,%s,%s,%s", 
+					randomNumMilesPerHour,randomNumKmPerHour,randomNumMeters,randomNumSeconds));
+		}
+		
+		testVelocity(randomNumMilesPerHour,randomNumKmPerHour,randomNumMeters,randomNumSeconds);
+	}
+	
+	public static void testDurationUsingRandom(boolean debug){
+		int randomNumSeconds = (int)(Math.random()*400 + 20);
+		int randomNumMinutes = (int)(Math.random()*55 + 2);
+		int randomNumHours = (int)(Math.random()*80 + 2);
+		
+		int randomNumMiPerHour = (int)(Math.random()*1000 + 10);
+		int randomNumMiles = (int)(Math.random()*12000 + 2);
+		
+		int randomNumKmPerHour = (int)(Math.random()*1600 + 10);
+		int randomNumKm = (int)(Math.random()*12000 + 2);
+		
+		if(debug){
+			System.out.println(String.format("Testing Duration with parameters: %s,%s,%s,%s,%s,%s,%s", 
+					randomNumSeconds,randomNumMinutes,randomNumHours,randomNumMiPerHour,randomNumMiles,randomNumKmPerHour,randomNumKm));
+		}
+		
+		testDuration(randomNumSeconds,randomNumMinutes,randomNumHours,randomNumMiPerHour,randomNumMiles,randomNumKmPerHour,randomNumKm);
 	}
 	
 	/**
@@ -66,12 +107,12 @@ public class Measurement_JUnit_Test {
 		Velocity mph = Velocity.constructUsingMiPerHour(numMilesPerHour);
 		Distance miles = Distance.constructUsingMeters(numMiles*1609.34);
 		Duration mileDuration = Duration.constructUsingVelocityAndDistance(mph, miles);
-		assertEquals(mileDuration.toString(),(numMiles/numMilesPerHour) + " hrs");
+		assertTrue(withinRange(mileDuration.getValue(),divideInts(numMiles,numMilesPerHour)*3600 ));
 		
 		Velocity kmph = Velocity.constructUsingKmPerHour(numKmPerHour);
 		Distance kilometers = Distance.constructUsingMeters(numKm*1000);
 		Duration kmDuration = Duration.constructUsingVelocityAndDistance(kmph, kilometers);
-		assertEquals(kmDuration.toString(),(numKm/numKmPerHour) + " hrs");
+		assertTrue(withinRange(kmDuration.getValue(), divideInts(numKm,numKmPerHour)*3600 ));
 		
 		
 		Duration testOneMinute = Duration.constructUsingSeconds(60);
@@ -83,10 +124,13 @@ public class Measurement_JUnit_Test {
 		Duration testOneHour = Duration.constructUsingSeconds(3600);
 		assertEquals(testOneHour.toString(),"1 hr");
 		
-		Duration testOneHourOneMin = Duration.constructUsingSeconds(3600+60);
+		Duration testOneHourOneMin = testOneHour.add(testOneMinute);
 		assertEquals(testOneHourOneMin.toString(), "1 hr 1 min");
 		
-		Duration testOneHourAndMins = Duration.constructUsingSeconds(3600 + numMinutes*60);
+		Duration test59Mins = testOneHour.subtract(testOneMinute);
+		assertEquals(test59Mins.toString(),"59 mins");
+		
+		Duration testOneHourAndMins = testOneHour.add(testMinutes);
 		assertEquals(testOneHourAndMins.toString(),"1 hr " + numMinutes + " mins");
 		
 		Duration testHours = Duration.constructUsingSeconds(numHours*3600);
@@ -142,19 +186,19 @@ public class Measurement_JUnit_Test {
 	public static void testVelocity(int slowMPH, int fastKmPH, int numMeters,int numSeconds){
 
 		Velocity slowOne = Velocity.constructUsingMiPerHour(slowMPH);
-		assertEquals(slowOne.getImperialText(),slowMPH + " mi/hr");
-		assertEquals(slowOne.toString(),slowMPH + " mi/hr");
+		assertTrue(slowOne.getImperialText().endsWith(" mi/hr"));
+		assertTrue(slowOne.toString().endsWith(" mi/hr"));
 		assertTrue(withinRange(slowOne.getRoundedValue(),(slowMPH*1609.34)/3600));
 		
 		Velocity fastOne = Velocity.constructUsingKmPerHour(fastKmPH);
-		assertEquals(fastOne.getMetricText(),fastKmPH + " km/hr");
-		assertTrue(withinRange(fastOne.getValue(),(fastKmPH*1000)/3600));
+		assertTrue(fastOne.getMetricText().endsWith(" km/hr"));
+		assertTrue(withinRange(fastOne.getValue(),divideInts((fastKmPH*1000),3600)));
 		
 		assertEquals(fastOne.compareTo(slowOne),1);
 		assertEquals(slowOne.compareTo(fastOne),-1);
 		
 		Velocity otherVeloc = Velocity.constructUsingMetersAndSeconds(numMeters, numSeconds);
-		assertTrue(withinRange(otherVeloc.getRoundedValue(),numMeters/numSeconds));
+		assertTrue(withinRange(otherVeloc.getRoundedValue(),divideInts(numMeters,numSeconds)));
 
 		boolean exceptionThrown = false;
 		try{
@@ -172,6 +216,12 @@ public class Measurement_JUnit_Test {
 		}
 		assertEquals(exceptionThrown,true);
 		
+	}
+	
+	public static double divideInts(int one, int two){
+		double oneD = one;
+		double twoD = two;
+		return oneD/twoD;
 	}
 	
 	public static boolean withinRange(double one, double two){
