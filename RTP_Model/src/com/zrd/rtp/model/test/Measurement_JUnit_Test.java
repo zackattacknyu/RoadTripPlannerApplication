@@ -31,18 +31,75 @@ public class Measurement_JUnit_Test {
 		testVelocity(34,120,44,2);
 		testVelocity(34,120,45,2);
 		
-		/*
-		Distance myDist = Distance.constructUsingMeters(130*1609.34);
+		testDuration(45,50,28,60,120,100,200);
+	}
+	
+	/**
+	 * This is a test of the duration class
+	 * @param numSeconds			a sample number of seconds
+	 * @param numMinutes			a sample number of minutes < 60 and > 1
+	 * @param numHours				a sample number of hours > 1
+	 * @param numMilesPerHour		sample speed in miles per hour
+	 * @param numMiles				sample number of miles that is a multiple of numMilesPerHour
+	 * @param numKmPerHour			sample speed in km per hour
+	 * @param numKm					sample number of kilometers that is a multiple of kmPerHour
+	 */
+	public static void testDuration(int numSeconds, int numMinutes, int numHours, int numMilesPerHour, int numMiles, int numKmPerHour, int numKm){
 		
-		Duration myDur = Duration.constructUsingSeconds(19000.54434);
+		Duration testInitDuration = Duration.constructUsingSeconds(numSeconds);
+		boolean exceptionThrown = false;
+		try{
+			testInitDuration.getImperialText();
+		}catch(UnsupportedOperationException e){
+			exceptionThrown = true;
+		}
+		assertEquals(exceptionThrown,true);
 		
-		Velocity mySpeed = Velocity.constructUsingMiPerHour(65);
+		exceptionThrown = false;
+		try{
+			testInitDuration.getMetricText();
+		}catch(UnsupportedOperationException e){
+			exceptionThrown = true;
+		}
+		assertEquals(exceptionThrown,true);
 		
-		assertEquals(myDist.getImperialText(),"130 mi");
-		assertEquals(myDur.toString(),"34 hrs");
-		assertEquals(myDur.getImperialText(),"65 mi/hr");
+		Velocity mph = Velocity.constructUsingMiPerHour(numMilesPerHour);
+		Distance miles = Distance.constructUsingMeters(numMiles*1609.34);
+		Duration mileDuration = Duration.constructUsingVelocityAndDistance(mph, miles);
+		assertEquals(mileDuration.toString(),(numMiles/numMilesPerHour) + " hrs");
 		
-		assert myDur.getImperialText().isEmpty();*/
+		Velocity kmph = Velocity.constructUsingKmPerHour(numKmPerHour);
+		Distance kilometers = Distance.constructUsingMeters(numKm*1000);
+		Duration kmDuration = Duration.constructUsingVelocityAndDistance(kmph, kilometers);
+		assertEquals(kmDuration.toString(),(numKm/numKmPerHour) + " hrs");
+		
+		
+		Duration testOneMinute = Duration.constructUsingSeconds(60);
+		assertEquals(testOneMinute.toString(),"1 min");
+		
+		Duration testMinutes = Duration.constructUsingSeconds(numMinutes*60);
+		assertEquals(testMinutes.toString(),numMinutes + " mins");
+				
+		Duration testOneHour = Duration.constructUsingSeconds(3600);
+		assertEquals(testOneHour.toString(),"1 hr");
+		
+		Duration testOneHourOneMin = Duration.constructUsingSeconds(3600+60);
+		assertEquals(testOneHourOneMin.toString(), "1 hr 1 min");
+		
+		Duration testOneHourAndMins = Duration.constructUsingSeconds(3600 + numMinutes*60);
+		assertEquals(testOneHourAndMins.toString(),"1 hr " + numMinutes + " mins");
+		
+		Duration testHours = Duration.constructUsingSeconds(numHours*3600);
+		assertEquals(testHours.toString(),numHours + " hrs");
+		
+		Duration testHoursOneMin = Duration.constructUsingSeconds(numHours*3600 + 60);
+		assertEquals(testHoursOneMin.toString(),numHours + " hrs 1 min");
+		
+		Duration testHoursAndMins = Duration.constructUsingSeconds(numHours*3600 + 60*numMinutes);
+		assertEquals(testHoursAndMins.toString(),numHours + " hrs " + numMinutes + " mins");
+		
+		
+		
 	}
 	
 	/**
@@ -56,17 +113,17 @@ public class Measurement_JUnit_Test {
 
 		Distance testMileDistance = Distance.constructUsingMeters(numMileTest*1609.34);
 		assertEquals(testMileDistance.getImperialText(),numMileTest + " mi");
-		assertEquals(testMileDistance.getRoundedValue(),(int)Math.round(numMileTest*1609.34));
+		assertTrue(withinRange(testMileDistance.getRoundedValue(),numMileTest*1609.34));
 		
 		Distance testKmDistance = Distance.constructUsingMeters(numKmTest*1000);
 		assertEquals(testKmDistance.getMetricText(),numKmTest + " km");
-		assertEquals((int)testKmDistance.getValue(),numKmTest*1000);
+		assertTrue(withinRange( testKmDistance.getValue(), numKmTest*1000));
 		
 		assertEquals(testMileDistance.compareTo(testKmDistance),-1);
 		assertEquals(testKmDistance.compareTo(testMileDistance),1);
 		
 		Distance combined = (Distance) testMileDistance.add(testKmDistance);
-		assertEquals(combined.getRoundedValue(), (int)(Math.round(numMileTest*1609.34 + numKmTest*1000) ) ); //value should be 218169.74
+		assertTrue(withinRange(combined.getRoundedValue() , numMileTest*1609.34 + numKmTest*1000));
 		
 		Distance backToMileDistance = (Distance) combined.subtract(testKmDistance);
 		assertEquals(backToMileDistance.toString(),numMileTest + " mi");
@@ -87,17 +144,17 @@ public class Measurement_JUnit_Test {
 		Velocity slowOne = Velocity.constructUsingMiPerHour(slowMPH);
 		assertEquals(slowOne.getImperialText(),slowMPH + " mi/hr");
 		assertEquals(slowOne.toString(),slowMPH + " mi/hr");
-		assertEquals(slowOne.getRoundedValue(),(int)Math.round((slowMPH*1609.34)/3600));
+		assertTrue(withinRange(slowOne.getRoundedValue(),(slowMPH*1609.34)/3600));
 		
 		Velocity fastOne = Velocity.constructUsingKmPerHour(fastKmPH);
 		assertEquals(fastOne.getMetricText(),fastKmPH + " km/hr");
-		assertEquals((int)fastOne.getValue(),(int)Math.round((fastKmPH*1000)/3600));
+		assertTrue(withinRange(fastOne.getValue(),(fastKmPH*1000)/3600));
 		
 		assertEquals(fastOne.compareTo(slowOne),1);
 		assertEquals(slowOne.compareTo(fastOne),-1);
 		
 		Velocity otherVeloc = Velocity.constructUsingMetersAndSeconds(numMeters, numSeconds);
-		assertEquals(otherVeloc.getRoundedValue(),(int)Math.round(numMeters/numSeconds));
+		assertTrue(withinRange(otherVeloc.getRoundedValue(),numMeters/numSeconds));
 
 		boolean exceptionThrown = false;
 		try{
@@ -115,6 +172,10 @@ public class Measurement_JUnit_Test {
 		}
 		assertEquals(exceptionThrown,true);
 		
+	}
+	
+	public static boolean withinRange(double one, double two){
+		return (Math.abs(one-two) <= 1);
 	}
 
 }

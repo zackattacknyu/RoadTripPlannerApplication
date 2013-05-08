@@ -64,7 +64,13 @@ public class Duration extends Measurement {
 				getFormatString(displayNumMinutes,"min"), displayNumMinutes);
 		
 		if(hoursPart.length() > 0){
-			return hoursPart + " " + minutesPart;
+			
+			if(minutesPart.length() > 0){
+				return hoursPart + " " + minutesPart;
+			}else{
+				return hoursPart;
+			}
+			
 		}else{
 			return minutesPart;
 		}
