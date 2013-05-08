@@ -53,6 +53,16 @@ public class Distance extends Measurement{
 		return constructUsingMeters(value);
 	}
 
+	@Override
+	public Distance add(Measurement val) {
+		return (Distance)super.add(val);
+	}
+
+	@Override
+	public Distance subtract(Measurement val) {
+		return (Distance)super.subtract(val);
+	}
+
 	
 	
 

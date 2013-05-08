@@ -77,6 +77,16 @@ public class Duration extends Measurement {
 		
 	}
 	
+	@Override
+	public Duration add(Measurement val) {
+		return (Duration)super.add(val);
+	}
+
+	@Override
+	public Duration subtract(Measurement val) {
+		return (Duration)super.subtract(val);
+	}
+
 	private static String getFormatString(int number,String prefix){
 		if(number < 1){
 			return "";
