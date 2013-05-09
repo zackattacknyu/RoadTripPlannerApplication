@@ -9,18 +9,19 @@ public class StopSequenceSet {
 	public StopSequenceSet(){
 		sequencesInDfsOrder = new ArrayList<StopSequence>();
 	}
-	
-	public void generateSequences(int startingStopNumber, int endingStopNumber){
-		StopSequence startingSeq = new StopSequence();
-		startingSeq.addToSequence(startingStopNumber);
-		generateSequences(startingSeq,startingStopNumber+1,endingStopNumber);
-	}
-	
 	public ArrayList<StopSequence> getSequencesInDfsOrder() {
 		return sequencesInDfsOrder;
 	}
+	
+	public void generateAllSequences(int startingStopNumber, int endingStopNumber){
+		StopSequence startingSeq = new StopSequence();
+		startingSeq.addToSequence(startingStopNumber);
+		generateAllSequences(startingSeq,startingStopNumber+1,endingStopNumber);
+	}
+	
+	
 
-	public void generateSequences(StopSequence currentSequence, int starting, int ending){
+	public void generateAllSequences(StopSequence currentSequence, int starting, int ending){
 		StopSequence sequenceToAdd = currentSequence.clone();
 		sequenceToAdd.addToSequence(ending);
 		sequencesInDfsOrder.add(sequenceToAdd);
@@ -28,7 +29,27 @@ public class StopSequenceSet {
 		for(int index = starting; index <= ending-1; index++){
 			StopSequence nextSequence = currentSequence.clone();
 			if(nextSequence.addToSequence(index)){
-				generateSequences(nextSequence,starting,ending);
+				generateAllSequences(nextSequence,starting,ending);
+			}
+		}
+	}
+	
+	public void generateSequencesInOrder(int startingStopNumber, int endingStopNumber){
+		StopSequence startingSeq = new StopSequence();
+		startingSeq.addToSequence(startingStopNumber);
+		generateSequencesInOrder(startingSeq,startingStopNumber+1,endingStopNumber);
+	}
+	
+	
+
+	public void generateSequencesInOrder(StopSequence currentSequence, int starting, int ending){
+		StopSequence sequenceToAdd = currentSequence.clone();
+		sequenceToAdd.addToSequence(ending);
+		sequencesInDfsOrder.add(sequenceToAdd);
+		for(int index = starting; index <= ending-1; index++){
+			StopSequence nextSequence = currentSequence.clone();
+			if(nextSequence.addToSequence(index)){
+				generateSequencesInOrder(nextSequence,index+1,ending);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ public class SequenceTest {
 	public static void main(String[] args) {
 		
 		StopSequenceSet mySet = new StopSequenceSet();
-		mySet.generateSequences(1, 5);
+		mySet.generateSequencesInOrder(4, 8);
 		for(StopSequence stopSeq: mySet.getSequencesInDfsOrder()){
 			System.out.println(stopSeq.toString());
 		}
