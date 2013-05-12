@@ -30,7 +30,7 @@ public class GsonTest {
 		queryParams.put("destinations", "San Francisco|Vancouver, BC");
 		queryParams.put("sensor", "false");
 		Client client = Client.create();
-		WebResource webResource = client.resource(baseUrl);
+		//WebResource webResource = client.resource(baseUrl);
 		WebResource.Builder webResourceBuilder;
 		UriBuilder theBuilder = UriBuilder.fromPath(baseUrl);
 		
@@ -38,7 +38,7 @@ public class GsonTest {
 			theBuilder = theBuilder.path(path);
 		}
 		
-		webResource = client.resource(theBuilder.build(pathValues));
+		WebResource webResource = client.resource(theBuilder.build(pathValues));
 		
 		Iterator<String> queryKeys = queryParams.keySet().iterator();
 		String currentKey;
