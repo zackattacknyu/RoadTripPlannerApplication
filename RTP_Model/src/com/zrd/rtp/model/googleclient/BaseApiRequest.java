@@ -12,16 +12,12 @@ public class BaseApiRequest {
 	private String[] pathValues;
 	private HashMap<String,String> queryParameters;
 
-	public void setQueryParameters(HashMap<String, String> queryParameters) {
-		this.queryParameters = queryParameters;
-	}
-
 	private Client client;
 	private WebResource webResource;
 	private WebResource.Builder webResourceBuilder;
 	private UriBuilder theBuilder;
 	
-	public BaseApiRequest(String baseURL, String[] pathValues, HashMap<String,String> queryParameters){
+	protected BaseApiRequest(String baseURL, String[] pathValues, HashMap<String,String> queryParameters){
 		this.baseURL = baseURL;
 		this.pathValues = pathValues;
 		this.queryParameters = queryParameters;
@@ -33,13 +29,8 @@ public class BaseApiRequest {
 		initializeResourceBuilder();
 	}
 	
-	public BaseApiRequest(String baseURL, String[] pathValues){
-		this.baseURL = baseURL;
-		this.pathValues = pathValues;
-		
-		initializeClient();
-		initializePath();
-		initializeResource();
+	public static BaseApiRequest newApiRequest(String baseURL, String[] pathValues, HashMap<String,String> queryParameters){
+		return new BaseApiRequest(baseURL,pathValues,queryParameters);
 	}
 	
 	private void initializeClient(){
