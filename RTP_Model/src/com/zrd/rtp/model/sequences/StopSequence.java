@@ -61,7 +61,7 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 		return stopNumbers;
 	}
 
-	//PUT INTO BFS COMPARATOR LATER
+	//This is the BFS Comparator
 	@Override
 	public int compareTo(StopSequence arg0) {
 		if(stopNumbers.size() < arg0.getStopNumbers().size()){
