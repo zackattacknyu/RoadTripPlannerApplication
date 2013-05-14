@@ -56,8 +56,18 @@ public class GsonTest {
 		
 		System.out.println(resultTree.get("origin_addresses"));
 		System.out.println(resultTree.get("destination_addresses"));
-		System.out.println(resultTree.get("status"));
-		System.out.println(resultTree.get("rows"));
+		System.out.println(resultTree.get("status").getAsString().equals("OK"));
+		//System.out.println(resultTree.get("rows"));
+		JsonArray theRows = resultTree.get("rows").getAsJsonArray();
+		for(JsonElement row: theRows){
+			JsonArray currentRow = row.getAsJsonObject().get("elements").getAsJsonArray();
+			for(JsonElement element: currentRow){
+				System.out.println(element.getAsJsonObject().get("status"));
+				System.out.println(element.getAsJsonObject().get("duration"));
+				System.out.println(element.getAsJsonObject().get("distance"));
+			}
+			System.out.println();
+		}
 		
 		
 	}

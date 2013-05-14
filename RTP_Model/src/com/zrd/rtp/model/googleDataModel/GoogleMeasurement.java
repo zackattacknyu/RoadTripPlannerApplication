@@ -1,5 +1,7 @@
 package com.zrd.rtp.model.googleDataModel;
 
+import com.google.gson.JsonObject;
+
 public class GoogleMeasurement {
 
 	private String text;
@@ -7,17 +9,17 @@ public class GoogleMeasurement {
 	public String getText() {
 		return text;
 	}
-	public void setText(String text) {
-		this.text = text;
-	}
 	public int getValue() {
 		return value;
 	}
-	public GoogleMeasurement(String text, int value) {
+	private GoogleMeasurement(String text, int value) {
 		this.text = text;
 		this.value = value;
 	}
-	public void setValue(int value) {
-		this.value = value;
+	
+	public static GoogleMeasurement getDataFromJson(JsonObject measurementData){
+		String text = measurementData.get("text").getAsString();
+		int value = measurementData.get("value").getAsInt();
+		return new GoogleMeasurement(text,value);
 	}
 }

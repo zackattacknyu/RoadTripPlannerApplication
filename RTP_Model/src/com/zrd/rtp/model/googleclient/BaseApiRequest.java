@@ -2,6 +2,8 @@ package com.zrd.rtp.model.googleClient;
 
 import java.util.HashMap;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import javax.ws.rs.core.UriBuilder;
@@ -58,9 +60,10 @@ public class BaseApiRequest {
 		webResourceBuilder = webResource.getRequestBuilder();
 	}
 	
-	public String execute(){
-		System.out.println(webResource.toString());
-		return webResourceBuilder.get(String.class);
+	public JsonObject execute(){
+		String jsonOutput = webResourceBuilder.get(String.class);
+		JsonParser newParser = new JsonParser();
+		return (JsonObject)newParser.parse(jsonOutput);
 	}
 	
 	
