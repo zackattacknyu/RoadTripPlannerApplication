@@ -1,4 +1,4 @@
-package com.zrd.rtp.model.googleclient;
+package com.zrd.rtp.model.googleClient;
 
 public class PipeSepartedValuesString {
 
