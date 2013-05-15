@@ -37,7 +37,7 @@ public class Distance extends Measurement{
 	 * @return		the text of the distance, with the unit km appended to the end
 	 */
 	public String getMetricText(){
-		return String.valueOf((int)Math.round(value/1000)) + " km";
+		return String.valueOf(getMetricValue()) + " km";
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class Distance extends Measurement{
 	 * @return		the text of the distance, with the unit mi appended to the end
 	 */
 	public String getImperialText(){
-		return String.valueOf((int)Math.round(value/1609.34)) + " mi";
+		return String.valueOf(getImperialValue()) + " mi";
 	}
 
 	@Override
@@ -61,6 +61,16 @@ public class Distance extends Measurement{
 	@Override
 	public Distance subtract(Measurement val) {
 		return (Distance)super.subtract(val);
+	}
+
+	@Override
+	public int getImperialValue() {
+		return (int)Math.round(value/1609.34);
+	}
+
+	@Override
+	public int getMetricValue() {
+		return (int)Math.round(value/1000);
 	}
 
 	

@@ -36,8 +36,7 @@ public class Velocity extends Measurement{
 	 * @return		text of the velocity with km/hr at the end
 	 */
 	public String getMetricText(){
-		double numKm = numMeters/1000;
-		return String.valueOf((int)(numKm/numHours)) + " km/hr";
+		return String.valueOf(getMetricValue()) + " km/hr";
 	}
 	
 	/**
@@ -45,8 +44,19 @@ public class Velocity extends Measurement{
 	 * @return		text of the velocity with mi/hr at the end
 	 */
 	public String getImperialText(){
+		return String.valueOf(getImperialValue()) + " mi/hr";
+	}
+	
+	@Override
+	public int getImperialValue() {
 		double numMiles = numMeters/1609.34;
-		return String.valueOf((int)(numMiles/numHours)) + " mi/hr";
+		return (int)(numMiles/numHours);
+	}
+
+	@Override
+	public int getMetricValue() {
+		double numKm = numMeters/1000;
+		return (int)(numKm/numHours);
 	}
 	
 	/**
@@ -108,6 +118,8 @@ public class Velocity extends Measurement{
 	protected Measurement constructUsingValue(double value) {
 		throw new UnsupportedOperationException("This application does not support constructing velocities using meters per second");
 	}
+
+	
 	
 	
 

@@ -43,6 +43,9 @@ public abstract class Measurement implements Comparable<Measurement>{
 	 */
 	public abstract String getImperialText();
 	
+	public abstract int getImperialValue();
+	public abstract int getMetricValue();
+	
 	protected final double value;
 	
 	protected Measurement(double value){

@@ -54,7 +54,7 @@ public class Duration extends Measurement {
 	 */
 	@Override
 	public String toString(){
-		int numMinutes = (int) Math.round(value/60);
+		int numMinutes = toValue();
 		int displayNumHours = numMinutes/60;
 		int displayNumMinutes = numMinutes%60;
 				
@@ -114,12 +114,28 @@ public class Duration extends Measurement {
 	 */
 	@Override
 	public String getImperialText() {
-		throw new UnsupportedOperationException("Durations do not vary by metric or imperial. Use toString to get the text.");
+		throw new UnsupportedOperationException("Durations do not vary by metric or imperial. Use toString to get the text and toValue to get the value in minutes.");
 	}
 	
 	@Override
 	protected Measurement constructUsingValue(double value) {
 		return constructUsingSeconds(value);
+	}
+	
+	public int toValue(){
+		return (int) Math.round(value/60);
+	}
+
+	@Override
+	public int getImperialValue() {
+		getImperialText();
+		return 0;
+	}
+
+	@Override
+	public int getMetricValue() {
+		getMetricText();
+		return 0;
 	}
 
 
