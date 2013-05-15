@@ -1,4 +1,4 @@
-package com.zrd.rtp.model.googleDataModel;
+package com.zrd.rtp.model.googleData;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

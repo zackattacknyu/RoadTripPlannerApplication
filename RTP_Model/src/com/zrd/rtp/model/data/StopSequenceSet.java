@@ -1,11 +1,9 @@
-package com.zrd.rtp.model.sequences;
+package com.zrd.rtp.model.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.zrd.rtp.model.measurements.Distance;
-import com.zrd.rtp.model.measurements.Duration;
 
 public class StopSequenceSet {
 

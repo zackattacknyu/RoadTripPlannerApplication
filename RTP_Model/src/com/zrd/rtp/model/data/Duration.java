@@ -1,4 +1,5 @@
-package com.zrd.rtp.model.measurements;
+package com.zrd.rtp.model.data;
+
 
 /**
  * This class is meant to represent a single duration. 

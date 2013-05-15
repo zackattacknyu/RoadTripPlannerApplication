@@ -1,4 +1,5 @@
-package com.zrd.rtp.model.measurements;
+package com.zrd.rtp.model.data;
+
 
 
 /**

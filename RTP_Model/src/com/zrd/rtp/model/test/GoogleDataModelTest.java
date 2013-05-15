@@ -1,8 +1,8 @@
 package com.zrd.rtp.model.test;
 
 import com.zrd.rtp.model.googleClient.DistanceMatrixApiRequest;
-import com.zrd.rtp.model.googleDataModel.DistanceMatrixData;
-import com.zrd.rtp.model.googleDataModel.DistanceMatrixElement;
+import com.zrd.rtp.model.googleData.DistanceMatrixData;
+import com.zrd.rtp.model.googleData.DistanceMatrixElement;
 
 public class GoogleDataModelTest {
 

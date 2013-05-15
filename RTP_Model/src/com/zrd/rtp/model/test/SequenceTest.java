@@ -3,9 +3,9 @@ package com.zrd.rtp.model.test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.zrd.rtp.model.measurements.Distance;
-import com.zrd.rtp.model.sequences.StopSequence;
-import com.zrd.rtp.model.sequences.StopSequenceSet;
+import com.zrd.rtp.model.data.Distance;
+import com.zrd.rtp.model.data.StopSequence;
+import com.zrd.rtp.model.data.StopSequenceSet;
 
 public class SequenceTest {
 

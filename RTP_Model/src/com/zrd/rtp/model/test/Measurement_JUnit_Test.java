@@ -6,9 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.zrd.rtp.model.measurements.Distance;
-import com.zrd.rtp.model.measurements.Duration;
-import com.zrd.rtp.model.measurements.Velocity;
+import com.zrd.rtp.model.data.Distance;
+import com.zrd.rtp.model.data.Duration;
+import com.zrd.rtp.model.data.Velocity;
 
 public class Measurement_JUnit_Test {
 
