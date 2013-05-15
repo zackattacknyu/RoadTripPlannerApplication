@@ -3,11 +3,32 @@ package com.zrd.rtp.model.sequences;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import com.zrd.rtp.model.measurements.Distance;
+import com.zrd.rtp.model.measurements.Duration;
+
 public class StopSequence implements Comparable<StopSequence>,Cloneable{
 
 	private ArrayList<Integer> stopNumbers;
 	private HashSet<Integer> stopNumbersSet;
+	private Distance addedDistance;
+	private Duration addedTime;
 	
+	public Distance getAddedDistance() {
+		return addedDistance;
+	}
+
+	public void setAddedDistance(Distance addedDistance) {
+		this.addedDistance = addedDistance;
+	}
+
+	public Duration getAddedTime() {
+		return addedTime;
+	}
+
+	public void setAddedTime(Duration addedDuration) {
+		this.addedTime = addedDuration;
+	}
+
 	public StopSequence(){
 		stopNumbers = new ArrayList<Integer>();
 		stopNumbersSet = new HashSet<Integer>();

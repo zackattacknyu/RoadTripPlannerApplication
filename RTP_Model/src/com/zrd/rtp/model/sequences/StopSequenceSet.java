@@ -11,15 +11,10 @@ public class StopSequenceSet {
 
 	private ArrayList<StopSequence> sequencesInDfsOrder;
 	private HashMap<String,StopSequence> sequencesMap;
-	private ArrayList<StopSequenceTimeData> addedTimeData;
-	private ArrayList<StopSequenceDistanceData> addedDistanceData;
 	
 	private StopSequenceSet(){
 		sequencesInDfsOrder = new ArrayList<StopSequence>();
 		sequencesMap = new HashMap<String,StopSequence>();
-		
-		addedTimeData = new ArrayList<StopSequenceTimeData>();
-		addedDistanceData = new ArrayList<StopSequenceDistanceData>();
 	}
 	public StopSequence[] getSequencesInDfsOrder() {
 		return sequencesInDfsOrder.toArray(new StopSequence[sequencesInDfsOrder.size()]);
@@ -31,32 +26,17 @@ public class StopSequenceSet {
 	}
 	
 	public void addTimeData(StopSequence seq, Duration addedTime){
-		addedTimeData.add(new StopSequenceTimeData(seq.toString(),addedTime));
+		sequencesMap.get(seq.toString()).setAddedTime(addedTime);
 	}
 	
 	public void addDistanceData(StopSequence seq, Distance addedDistance){
-		addedDistanceData.add(new StopSequenceDistanceData(seq.toString(),addedDistance));
+		sequencesMap.get(seq.toString()).setAddedDistance(addedDistance);
 	}
-	
 	
 	public StopSequence[] getSequencesInBfsOrder(){
 		StopSequence[] sequencesInBfsOrder = getSequencesInDfsOrder();
 		Arrays.sort(sequencesInBfsOrder);
 		return sequencesInBfsOrder;
-	}
-	
-	public StopSequenceTimeData[] getSequencesInTimeOrder(){
-		StopSequenceTimeData[] sequencesInTimeOrder = 
-				addedTimeData.toArray(new StopSequenceTimeData[addedTimeData.size()]);
-		Arrays.sort(sequencesInTimeOrder);
-		return sequencesInTimeOrder;
-	}
-	
-	public StopSequenceDistanceData[] getSequencesInDistanceOrder(){
-		StopSequenceDistanceData[] sequencesInDistanceOrder = 
-				addedDistanceData.toArray(new StopSequenceDistanceData[addedDistanceData.size()]);
-		Arrays.sort(sequencesInDistanceOrder);
-		return sequencesInDistanceOrder;
 	}
 	
 	public static StopSequenceSet getAllSequences(int startingStopNumber, int endingStopNumber){
