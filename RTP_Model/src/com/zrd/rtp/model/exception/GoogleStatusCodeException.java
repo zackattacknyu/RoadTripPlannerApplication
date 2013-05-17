@@ -1,30 +1,12 @@
 package com.zrd.rtp.model.exception;
 
 public class GoogleStatusCodeException extends Exception {
+	
+	private String statusCodeName;
+	private String statusCodeDescription;
 
-	public GoogleStatusCodeException() {
-		// TODO Auto-generated constructor stub
+	public GoogleStatusCodeException(String statusCode) {
+		super(String.format("Error: Google returned the following status code:%s", statusCode));
+		statusCodeName = statusCode;
 	}
-
-	public GoogleStatusCodeException(String arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GoogleStatusCodeException(Throwable arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GoogleStatusCodeException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
-
-	public GoogleStatusCodeException(String arg0, Throwable arg1, boolean arg2,
-			boolean arg3) {
-		super(arg0, arg1, arg2, arg3);
-		// TODO Auto-generated constructor stub
-	}
-
 }
