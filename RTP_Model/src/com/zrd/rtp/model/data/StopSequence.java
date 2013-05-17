@@ -10,6 +10,7 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 	private HashSet<Integer> stopNumbersSet;
 	private Distance addedDistance;
 	private Duration addedTime;
+	private int offsetStopNumber;
 	
 	public Distance getAddedDistance() {
 		return addedDistance;
@@ -27,7 +28,8 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 		this.addedTime = addedDuration;
 	}
 
-	public StopSequence(){
+	public StopSequence(int offsetStopNumber){
+		this.offsetStopNumber = offsetStopNumber;
 		stopNumbers = new ArrayList<Integer>();
 		stopNumbersSet = new HashSet<Integer>();
 	}
@@ -44,7 +46,7 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 
 	@Override
 	public StopSequence clone(){
-		StopSequence newSequence = new StopSequence();
+		StopSequence newSequence = new StopSequence(offsetStopNumber);
 		for(int stopNumber: stopNumbers){
 			newSequence.addToSequence(stopNumber);
 		}
@@ -66,7 +68,7 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 	public String toString() {
 		StringBuilder seqString = new StringBuilder();
 		for(int stopNumber:stopNumbers){
-			seqString.append(stopNumber);
+			seqString.append(stopNumber + offsetStopNumber);
 			seqString.append("-");
 		}
 		

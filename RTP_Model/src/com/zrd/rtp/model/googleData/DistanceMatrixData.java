@@ -9,6 +9,7 @@ public class DistanceMatrixData {
 	private DistanceMatrixElement[][] matrix;
 	private String status;
 	private boolean goodRequest;
+	private int numberStops;
 	
 	private DistanceMatrixData(String status){
 		this.status = status;
@@ -19,8 +20,22 @@ public class DistanceMatrixData {
 		this.status = "OK";
 		goodRequest = true;
 		matrix = new DistanceMatrixElement[numberRows][];
+		numberStops = numberRows - 2;
 	}
 	
+	public int getNumberStops() {
+		return numberStops;
+	}
+	
+	public DistanceMatrixElement getElement(int originNumber, int destinationNumber){
+		return matrix[originNumber][destinationNumber];
+	}
+	
+	public DistanceMatrixElement getBaseElement(){
+		int endNumber = matrix[0].length-1;
+		return matrix[0][endNumber];
+	}
+
 	private void initializeMatrixRow(int rowIndex, int numberColumns){
 		matrix[rowIndex] = new DistanceMatrixElement[numberColumns];
 	}

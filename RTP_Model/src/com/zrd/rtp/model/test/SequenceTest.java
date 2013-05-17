@@ -1,36 +1,34 @@
 package com.zrd.rtp.model.test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.zrd.rtp.model.data.Distance;
 import com.zrd.rtp.model.data.StopSequence;
 import com.zrd.rtp.model.data.StopSequenceSet;
+import com.zrd.rtp.model.exception.GoogleStatusCodeException;
+import com.zrd.rtp.model.googleClient.DistanceMatrixApiRequest;
+import com.zrd.rtp.model.googleData.DistanceMatrixData;
 
 public class SequenceTest {
 
 	/**
 	 * @param args
+	 * @throws GoogleStatusCodeException 
 	 */
-	public static void main(String[] args) {
-		
-		StopSequenceSet mySet = StopSequenceSet.getAllSequences(4, 8);
-		for(StopSequence stopSeq: mySet.getSequencesInBfsOrder()){
-			mySet.addDistanceData(stopSeq,Distance.constructUsingMeters(1000 + Math.random()*10000000));
-			System.out.println(stopSeq + ":" + stopSeq.getAddedDistance());
-		}/*
-		for(StopSequenceDistanceData distData: mySet.getSequencesInDistanceOrder()){
-			System.out.println(distData.getAddedDistance().toString() + ":" + distData.getSequenceKey());
+	public static void main(String[] args) throws GoogleStatusCodeException {
+		String[] route = {"Davenport, IA","Dallas,TX","Santa Fe, NM","Tucson,AZ","Irvine, CA"};
+		DistanceMatrixApiRequest request = DistanceMatrixApiRequest.makeRequest(route, route);
+		DistanceMatrixData data = DistanceMatrixData.getDataFromJson(request.execute());
+		printSequences(StopSequenceSet.getOrderedSequences(data));
+		printSequences(StopSequenceSet.getAllSequences(data));
+	}
+	
+	public static void printSequences(StopSequenceSet sequenceData){
+		System.out.println();
+		for(StopSequence seq:sequenceData.getSequencesInBfsOrder()){
+			System.out.println(seq.toString()+ " : " + seq.getAddedDistance() + " : " + seq.getAddedTime());
 		}
-		
-		StopSequenceSet mySet2 = StopSequenceSet.getAllSequences(4, 8);
-		for(StopSequence stopSeq: mySet.getSequencesInDfsOrder()){
-			mySet.addTimeData(stopSeq,Duration.constructUsingSeconds(1000 + Math.random()*100000));
+		System.out.println();
+		for(StopSequence seq:sequenceData.getSequencesInDfsOrder()){
+			System.out.println(seq.toString()+ " : " + seq.getAddedDistance() + " : " + seq.getAddedTime());
 		}
-		for(StopSequenceTimeData timeData: mySet.getSequencesInTimeOrder()){
-			System.out.println(timeData.getAddedTime().toString() + ":" + timeData.getSequenceKey());
-		}*/
-
 	}
 
 }
