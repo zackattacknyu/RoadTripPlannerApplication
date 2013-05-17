@@ -12,7 +12,7 @@ public class SequenceTest {
 	 * @param args
 	 * @throws GoogleStatusCodeException 
 	 */
-	public static void main(String[] args) throws GoogleStatusCodeException {
+	public static void main(String[] args) throws Exception {
 		String[] route = {"Davenport, IA","Dallas,TX","Santa Fe, NM","Tucson,AZ","Irvine, CA"};
 		DistanceMatrixApiRequest request = DistanceMatrixApiRequest.makeRequest(route, route);
 		DistanceMatrixData data = DistanceMatrixData.getDataFromJson(request.execute());

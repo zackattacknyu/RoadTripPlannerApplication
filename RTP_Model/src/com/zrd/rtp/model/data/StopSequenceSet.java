@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.zrd.rtp.model.exception.GoogleElementLevelException;
 import com.zrd.rtp.model.exception.GoogleStatusCodeException;
+import com.zrd.rtp.model.exception.GoogleTopLevelException;
 import com.zrd.rtp.model.googleData.DistanceMatrixData;
 import com.zrd.rtp.model.googleData.DistanceMatrixElement;
 
@@ -25,25 +27,25 @@ public class StopSequenceSet {
 	/*
 	 * PUBLIC STATIC METHODS FOR CONSTRUCTION
 	 */
-	public static StopSequenceSet getAllSequences(DistanceMatrixData googleData, int offsetStopNumber) throws GoogleStatusCodeException{
+	public static StopSequenceSet getAllSequences(DistanceMatrixData googleData, int offsetStopNumber) throws Exception{
 		StopSequenceSet allSequences = new StopSequenceSet(googleData); 
 		allSequences.getAllSequences(offsetStopNumber,googleData.getNumberStops());
 		allSequences.constructSequenceData();
 		return allSequences;
 	}
 	
-	public static StopSequenceSet getAllSequences(DistanceMatrixData googleData) throws GoogleStatusCodeException{
+	public static StopSequenceSet getAllSequences(DistanceMatrixData googleData) throws Exception{
 		return getAllSequences(googleData,0);
 	}
 	
-	public static StopSequenceSet getOrderedSequences(DistanceMatrixData googleData, int offsetStopNumber) throws GoogleStatusCodeException{
+	public static StopSequenceSet getOrderedSequences(DistanceMatrixData googleData, int offsetStopNumber) throws Exception{
 		StopSequenceSet orderedSequences = new StopSequenceSet(googleData);
 		orderedSequences.getOrderedSequences(offsetStopNumber,googleData.getNumberStops());
 		orderedSequences.constructSequenceData();
 		return orderedSequences;
 	}
 	
-	public static StopSequenceSet getOrderedSequences(DistanceMatrixData googleData) throws GoogleStatusCodeException{
+	public static StopSequenceSet getOrderedSequences(DistanceMatrixData googleData) throws Exception{
 		return getOrderedSequences(googleData,0);
 	}
 	
@@ -105,9 +107,9 @@ public class StopSequenceSet {
 	 * PRIVATE HELPER METHOD FOR CONSTRUCTING THE IMPORTANT DATA
 	 */
 	
-	private void constructSequenceData() throws GoogleStatusCodeException{
+	private void constructSequenceData() throws Exception{
 		if(!googleData.isGoodRequest()){
-			throw new GoogleStatusCodeException("Illegal Status Code for processing"); //EXPAND UPON THIS
+			throw new GoogleTopLevelException(googleData.getStatus());
 		}
 
 		Duration baseDuration = Duration.constructUsingSeconds(googleData.getBaseElement().getDuration().getValue());
@@ -120,7 +122,7 @@ public class StopSequenceSet {
 		
 	}
 	
-	private void calculateSequenceData(StopSequence seq, Distance baseDistance, Duration baseDuration) throws GoogleStatusCodeException{
+	private void calculateSequenceData(StopSequence seq, Distance baseDistance, Duration baseDuration) throws Exception{
 		int stepOriginNumber;
 		int stepDestNumber;
 		DistanceMatrixElement currentElement;
@@ -142,7 +144,7 @@ public class StopSequenceSet {
 			
 			//figure out the time/distance between the stops from the google data
 			if(!currentElement.isValidRoute()){
-				throw new GoogleStatusCodeException("Illegal Status Code for processing");
+				throw new GoogleElementLevelException(currentElement.getStatus());
 			}
 			currentStepDuration = Duration.constructUsingSeconds(currentElement.getDuration().getValue());
 			currentStepDistance = Distance.constructUsingMeters(currentElement.getDistance().getValue());
