@@ -1,4 +1,4 @@
-package com.zrd.rtp.fileviewcontroller.input;
+package com.zrd.rtp.fileviewcontroller.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
