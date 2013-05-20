@@ -13,11 +13,11 @@ public class SequenceTest {
 	 * @throws GoogleStatusCodeException 
 	 */
 	public static void main(String[] args) throws Exception {
-		String[] route = {"Davenport, IA","Dallas,TX","Santa Fe, NM","Tucson,AZ","Irvine, CA"};
+		String[] route = {"Bloomington, MN","Minnehaha Park, South Minnehaha Park Drive, Minneapolis, MN","Northfield, MN"};
 		DistanceMatrixApiRequest request = DistanceMatrixApiRequest.makeRequest(route, route);
 		DistanceMatrixData data = DistanceMatrixData.getDataFromJson(request.execute());
 		printSequences(StopSequenceSet.getOrderedSequences(data));
-		printSequences(StopSequenceSet.getAllSequences(data));
+		//printSequences(StopSequenceSet.getAllSequences(data));
 	}
 	
 	public static void printSequences(StopSequenceSet sequenceData){
