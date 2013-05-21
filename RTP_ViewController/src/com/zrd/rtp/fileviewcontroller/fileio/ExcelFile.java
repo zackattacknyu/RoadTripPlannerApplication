@@ -141,10 +141,6 @@ public class ExcelFile {
 		return new ExcelFile(new HSSFWorkbook());
 	}
 	
-	public static ExcelFile initXLSXWorkbook(){
-		return new ExcelFile(new XSSFWorkbook());
-	}
-	
 	public void writeWorkbookToFile(File excelFile){
 		FileOutputStream excelOutputStream = null;
 		
