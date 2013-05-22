@@ -6,9 +6,16 @@ import com.zrd.rtp.model.googleData.DistanceMatrixData;
 
 public class StopSequencesClient {
 
-	public static StopSequenceSet getSequenceSet(String[] route) throws Exception{
+	public static StopSequenceSet getOrderedSequenceSet(String[] route) throws Exception{
+		return StopSequenceSet.getOrderedSequences(getDistanceMatrixData(route));
+	}
+	
+	public static StopSequenceSet getAllSequenceSet(String[] route) throws Exception{
+		return StopSequenceSet.getAllSequences(getDistanceMatrixData(route));
+	}
+	
+	public static DistanceMatrixData getDistanceMatrixData(String[] route){
 		DistanceMatrixApiRequest request = DistanceMatrixApiRequest.makeRequest(route, route);
-		DistanceMatrixData data = DistanceMatrixData.getDataFromJson(request.execute());
-		return StopSequenceSet.getOrderedSequences(data);
+		return DistanceMatrixData.getDataFromJson(request.execute());
 	}
 }

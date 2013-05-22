@@ -33,23 +33,7 @@ public class FileInput {
 			System.out.println("That file was not found");
 		}
 		
-		try {
-			StopSequenceSet seqSet = StopSequencesClient.getSequenceSet(stops);
-			String[] header = {"Sequence","Added Time (minutes)","Added Time","Added Distance(miles)"};
-			int[] types = {Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC,Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC};
-			List<Object[]> body = new ArrayList<Object[]>();
-			for(StopSequence seq:seqSet.getSequencesInBfsOrder()){
-				body.add(generateRowFromData(seq));
-			}
-			String outputExcelFile = theFile.getParentFile().toPath().resolve("outputResponse.xls").toString();
-			ExcelFile output = ExcelFile.initXLSWorkbook();
-			output.addSheet("Sequence Data", body, types, header);
-			output.writeWorkbookToFile(new File(outputExcelFile));
-			
-		} catch (Exception e1) {
-			System.out.println("Error trying to obtain set");
-			e1.printStackTrace();
-		}
+		FileOutput.generateExcelFile(stops, theFile.getParentFile().toPath().resolve("result.xls").toFile());
 
 	}
 	
