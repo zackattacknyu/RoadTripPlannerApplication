@@ -25,6 +25,8 @@ public class FileInput {
 		Scanner consoleReader = new Scanner(System.in);
 		System.out.println("File To Read From:");
 		File theFile = new File(consoleReader.nextLine());
+		System.out.println("Name of Resultant Excel File: ");
+		String fileName = consoleReader.nextLine();
 		String[] stops = null;
 		
 		try {
@@ -33,24 +35,10 @@ public class FileInput {
 			System.out.println("That file was not found");
 		}
 		
-		FileOutput.generateExcelFile(stops, theFile.getParentFile().toPath().resolve("result.xls").toFile());
+		System.out.println("Attempting to generate excel file");
+		FileOutput.generateExcelFile(stops, theFile.getParentFile().toPath().resolve(fileName + ".xls").toFile());
+		System.out.println("Successfuly generated excel file");
 
-	}
-	
-	public static Object[] generateRowFromData(StopSequence seq){
-		Object[] toReturn = new Object[4];
-		toReturn[0] = seq.toString();
-		toReturn[1] = Double.valueOf(seq.getAddedTime().toValue());
-		toReturn[2] = seq.getAddedTime().toString();
-		toReturn[3] = Double.valueOf(seq.getAddedDistance().getImperialValue());
-		return toReturn;
-	}
-	
-	public static void printSequences(StopSequenceSet sequenceData){
-		System.out.println();
-		for(StopSequence seq:sequenceData.getSequencesInBfsOrder()){
-			System.out.println(seq.toString()+ " : " + seq.getAddedDistance() + " : " + seq.getAddedTime());
-		}
 	}
 	
 	public static String[] getStopsFromFile(File theFile) throws FileNotFoundException{

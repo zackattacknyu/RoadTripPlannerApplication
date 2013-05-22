@@ -16,15 +16,12 @@ public class FileOutput {
 	public static void generateExcelFile(String[] stops, File excelFile){
 		
 		try{
-			StopSequenceSet seqSet = StopSequencesClient.getOrderedSequenceSet(stops);
 			String[] header = {"Sequence","Added Time (minutes)","Added Time","Added Distance(miles)"};
 			int[] types = {Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC,Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC};
-			List<Object[]> body = new ArrayList<Object[]>();
-			for(StopSequence seq:seqSet.getSequencesInBfsOrder()){
-				body.add(generateRowFromData(seq));
-			}
 			ExcelFile output = ExcelFile.initXLSWorkbook();
-			output.addSheet("Sequence Data", body, types, header);
+			output.addSheet("Sequence Data", 
+					StopSequencesClient.getSequenceDataTable(stops,StopSequencesClient.OrderingOption.BFS_ORDER,StopSequencesClient.SequencesOption.ALL_SEQUENCES), 
+					types, header);
 			output.writeWorkbookToFile(excelFile);
 		}catch(Exception e){
 			System.out.println("Error trying to obtain set");
@@ -33,12 +30,4 @@ public class FileOutput {
 		
 	}
 	
-	private static Object[] generateRowFromData(StopSequence seq){
-		Object[] toReturn = new Object[4];
-		toReturn[0] = seq.toString();
-		toReturn[1] = Double.valueOf(seq.getAddedTime().toValue());
-		toReturn[2] = seq.getAddedTime().toString();
-		toReturn[3] = Double.valueOf(seq.getAddedDistance().getImperialValue());
-		return toReturn;
-	}
 }
