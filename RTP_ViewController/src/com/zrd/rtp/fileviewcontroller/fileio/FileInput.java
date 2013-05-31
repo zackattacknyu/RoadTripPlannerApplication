@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -26,14 +28,18 @@ public class FileInput {
 	 */
 	public static void main(String[] args){
 		
+		FileFilter textFilesOnly = new FileNameExtensionFilter("Text Files","txt");
 		JFileChooser textFileChooser = new JFileChooser();
+		textFileChooser.setFileFilter(textFilesOnly);
 		int result = textFileChooser.showOpenDialog(null);
 		if(result == JFileChooser.CANCEL_OPTION){
 			return;
 		}
 		File inputTextFile = textFileChooser.getSelectedFile();
 		
+		FileFilter excelFilesOnly = new FileNameExtensionFilter("Excel Files","xls","xlsx");
 		JFileChooser excelFileChooser = new JFileChooser(inputTextFile);
+		excelFileChooser.setFileFilter(excelFilesOnly);
 		result = excelFileChooser.showSaveDialog(null);
 		if(result == JFileChooser.CANCEL_OPTION){
 			return;
