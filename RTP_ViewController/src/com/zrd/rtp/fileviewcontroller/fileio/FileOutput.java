@@ -6,22 +6,33 @@ import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 
-import com.zrd.rtp.model.client.StopSequencesClient;
+import com.zrd.rtp.model.client.StopSequenceRequest;
 import com.zrd.rtp.model.data.StopSequence;
 import com.zrd.rtp.model.data.StopSequenceSet;
 
 public class FileOutput {
 
-	
 	public static void generateExcelFile(String[] stops, File excelFile){
+		generateExcelFile(stops, excelFile, StopSequenceRequest.OrderingOption.BFS_ORDER, StopSequenceRequest.SequencesOption.ONLY_ORDERED_SEQUENCES);
+	}
+	
+	
+	public static void generateExcelFile(String[] stops, File excelFile, StopSequenceRequest.OrderingOption ordering, StopSequenceRequest.SequencesOption sequences){
 		
 		try{
+			ExcelFile output = ExcelFile.initXLSWorkbook();
+			StopSequenceRequest request = StopSequenceRequest.getSequenceData(stops, ordering, sequences);
+			
+			String[] infoHeader = {"Sequence Number","Address"};
+			int[] infoTypes = {Cell.CELL_TYPE_NUMERIC,Cell.CELL_TYPE_STRING};
+			output.addSheet("Sequence Legend", request.getOutputAddresses(), infoTypes, infoHeader);
+			
 			String[] header = {"Sequence","Added Time (minutes)","Added Time","Added Distance(miles)"};
 			int[] types = {Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC,Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC};
-			ExcelFile output = ExcelFile.initXLSWorkbook();
 			output.addSheet("Sequence Data", 
-					StopSequencesClient.getSequenceDataTable(stops,StopSequencesClient.OrderingOption.BFS_ORDER,StopSequencesClient.SequencesOption.ALL_SEQUENCES), 
+					request.getSequenceDataTable(), 
 					types, header);
+			
 			output.writeWorkbookToFile(excelFile);
 		}catch(Exception e){
 			System.out.println("Error trying to obtain set");
@@ -29,5 +40,6 @@ public class FileOutput {
 		}
 		
 	}
+	
 	
 }
