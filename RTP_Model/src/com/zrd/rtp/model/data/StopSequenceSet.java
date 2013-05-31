@@ -63,6 +63,10 @@ public class StopSequenceSet {
 		return sequencesInBfsOrder;
 	}
 	
+	public DistanceMatrixData getGoogleData() {
+		return googleData;
+	}
+
 	/*
 	 * PRIVATE HELPER METHODS WHEN CONSTRUCTING THE INITIAL SET
 	 */

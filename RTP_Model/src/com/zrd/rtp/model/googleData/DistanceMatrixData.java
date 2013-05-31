@@ -8,6 +8,7 @@ public class DistanceMatrixData {
 
 	private DistanceMatrixElement[][] matrix;
 	private String status;
+	private String[] addresses;
 	private boolean goodRequest;
 	private int numberStops;
 	
@@ -20,9 +21,18 @@ public class DistanceMatrixData {
 		this.status = "OK";
 		goodRequest = true;
 		matrix = new DistanceMatrixElement[numberRows][];
+		addresses = new String[numberRows];
 		numberStops = numberRows - 2;
 	}
 	
+	public String[] getAddresses() {
+		return addresses;
+	}
+
+	private void setAddress(int index, String address) {
+		addresses[index] = address;
+	}
+
 	public int getNumberStops() {
 		return numberStops;
 	}
@@ -46,13 +56,17 @@ public class DistanceMatrixData {
 	
 	public static DistanceMatrixData getDataFromJson(JsonObject rootObject){
 		String status = rootObject.get("status").getAsString();
-		JsonArray originRows, destinationElements;
+		JsonArray originRows, destinationElements,addressElements;
 		DistanceMatrixData returnData;
-		int rowIndex, columnIndex;
+		int rowIndex, columnIndex,addressIndex;
 		
 		if(status.equals("OK")){
 			originRows = rootObject.get("rows").getAsJsonArray();
 			returnData = new DistanceMatrixData(originRows.size());
+			addressIndex = 0;
+			for(JsonElement address: rootObject.get("origin_addresses").getAsJsonArray()){
+				returnData.setAddress(addressIndex++, address.getAsString());
+			}
 			rowIndex = 0;
 			for(JsonElement currentRow:originRows){
 				destinationElements = currentRow.getAsJsonObject().get("elements").getAsJsonArray();
