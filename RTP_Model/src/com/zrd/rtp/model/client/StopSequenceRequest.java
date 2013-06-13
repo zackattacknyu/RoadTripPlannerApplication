@@ -11,9 +11,9 @@ import com.zrd.rtp.model.googleData.DistanceMatrixData;
 
 public class StopSequenceRequest {
 	
-	public enum OrderingOption{BFS_ORDER, DFS_ORDER};
+	public enum OrderingOption{BFS_ORDER, DFS_ORDER,BEST_SEQUENCES_BY_TIME,BEST_SEQUENCES_BY_DISTANCE};
 	
-	public enum SequencesOption{ALL_SEQUENCES,ONLY_ORDERED_SEQUENCES};
+	public enum SequencesOption{ALL_SEQUENCES,ONLY_ORDERED_SEQUENCES,BEST_SEQUENCES};
 	
 	public enum MeasurementUnitOption{METRIC,IMPERIAL};
 	
@@ -70,6 +70,7 @@ public class StopSequenceRequest {
 		switch(sequenceOption){
 			case ALL_SEQUENCES: seqSet = getAllSequenceSet(inputRoute); break;
 			case ONLY_ORDERED_SEQUENCES: seqSet = getOrderedSequenceSet(inputRoute); break;
+			case BEST_SEQUENCES: seqSet = getAllSequenceSet(inputRoute); break;
 		}
 	}
 	
@@ -77,6 +78,8 @@ public class StopSequenceRequest {
 		switch(ordering){
 			case BFS_ORDER: sequenceArray = seqSet.getSequencesInBfsOrder(); break;
 			case DFS_ORDER: sequenceArray = seqSet.getSequencesInDfsOrder(); break;
+			case BEST_SEQUENCES_BY_TIME: sequenceArray = seqSet.getBestSequencesByTime(); break;
+			case BEST_SEQUENCES_BY_DISTANCE: sequenceArray = seqSet.getBestSequencesByDistance(); break;
 		}
 	}
 	

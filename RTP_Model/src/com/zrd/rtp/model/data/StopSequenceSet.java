@@ -3,6 +3,7 @@ package com.zrd.rtp.model.data;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 import com.zrd.rtp.model.exception.GoogleElementLevelException;
 import com.zrd.rtp.model.exception.GoogleStatusCodeException;
@@ -16,11 +17,21 @@ public class StopSequenceSet {
 	private ArrayList<StopSequence> sequencesInDfsOrder;
 	private DistanceMatrixData googleData;
 	
+	/**
+	 * This is a map containing all the best ways to visit multiple stops. 
+	 * 		In other words, it contains all the best orderings for the 
+	 * 		different combinations of stops. 
+	 */
+	private Hashtable<Integer,StopSequence> bestSequencesByTime;
+	private Hashtable<Integer,StopSequence> bestSequencesByDistance;
+	
 	/*
 	 * CONSTRUCTOR
 	 */
 	private StopSequenceSet(DistanceMatrixData googleData){
 		sequencesInDfsOrder = new ArrayList<StopSequence>();
+		bestSequencesByTime = new Hashtable<Integer,StopSequence>();
+		bestSequencesByDistance = new Hashtable<Integer,StopSequence>();
 		this.googleData = googleData;
 	}
 	
@@ -59,6 +70,20 @@ public class StopSequenceSet {
 
 	public StopSequence[] getSequencesInBfsOrder(){
 		StopSequence[] sequencesInBfsOrder = getSequencesInDfsOrder();
+		Arrays.sort(sequencesInBfsOrder);
+		return sequencesInBfsOrder;
+	}
+	
+	public StopSequence[] getBestSequencesByTime(){
+		return getBestSequences(bestSequencesByTime);
+	}
+	
+	public StopSequence[] getBestSequencesByDistance(){
+		return getBestSequences(bestSequencesByDistance);
+	}
+	
+	private StopSequence[] getBestSequences(Hashtable<Integer,StopSequence> bestSeqMap){
+		StopSequence[] sequencesInBfsOrder = bestSeqMap.values().toArray(new StopSequence[bestSeqMap.size()]);
 		Arrays.sort(sequencesInBfsOrder);
 		return sequencesInBfsOrder;
 	}
@@ -122,6 +147,8 @@ public class StopSequenceSet {
 		
 		for(StopSequence seq: sequencesInDfsOrder){
 			calculateSequenceData(seq,baseDistance,baseDuration);
+			addSequenceToMap(bestSequencesByTime,seq);
+			addSequenceToMap(bestSequencesByDistance,seq);
 		}
 		
 	}
@@ -161,5 +188,15 @@ public class StopSequenceSet {
 		//calculate the added time/distance over the base and put it in sequence data
 		seq.setAddedTime(currentSequenceDuration.subtract(baseDuration));
 		seq.setAddedDistance(currentSequenceDistance.subtract(baseDistance));
+	}
+	
+	private void addSequenceToMap(Hashtable<Integer,StopSequence> currentMap, StopSequence seq){
+		if(currentMap.containsKey(seq.getStopsHashNumber())){
+			if(seq.getAddedTime().getValue() < currentMap.get(seq.getStopsHashNumber()).getAddedTime().getValue()){
+				currentMap.put(seq.getStopsHashNumber(), seq);
+			}
+		}else{
+			currentMap.put(seq.getStopsHashNumber(), seq);
+		}
 	}
 }

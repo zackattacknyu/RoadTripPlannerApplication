@@ -10,6 +10,19 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 	private HashSet<Integer> stopNumbersSet;
 	private Distance addedDistance;
 	private Duration addedTime;
+	private int stopsHashNumber = 0;
+	
+	/**
+	 * This stops hash number is an integer that represents the stops 
+	 * 		contained in the sequence. If two sequences have the same hash number,
+	 * 		then the stops contained in the sequences are the same. The order
+	 * 		of the stops though could vary. 
+	 * @return
+	 */
+	public int getStopsHashNumber() {
+		return stopsHashNumber;
+	}
+
 	private int offsetStopNumber;
 	
 	public Distance getAddedDistance() {
@@ -37,6 +50,7 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 	public boolean addToSequence(int stopNumber){
 		if(stopNumbersSet.add(stopNumber)){
 			stopNumbers.add(stopNumber);
+			stopsHashNumber += Math.pow(2, stopNumber);
 			return true;
 		}else{
 			return false;

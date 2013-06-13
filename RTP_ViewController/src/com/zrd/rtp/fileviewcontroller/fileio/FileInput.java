@@ -49,7 +49,9 @@ public class FileInput {
 		String options = JOptionPane.showInputDialog("Any options? \nType -DfsOrder for the sequences to" + 
 				" display in DFS instead of BFS order. \n" + 
 				"Type -AllSequences to display all the " + 
-				"possible stop sequences instead of just the ordered ones.");
+				"possible stop sequences instead of just the ordered ones.\n" + 
+				"Type -BestSequences or -BestSequencesByTime to display the best order to visit each set of stops by time\n" + 
+				"Type -BestSequencesByDistance to display the best order to visit each set of stops by distance");
 		if(String.valueOf(options).equals("null")) return;
 		
 		try {
@@ -62,6 +64,14 @@ public class FileInput {
 		StopSequenceRequest.SequencesOption sequences = StopSequenceRequest.SequencesOption.ONLY_ORDERED_SEQUENCES;
 		if(options.toLowerCase().contains("-dfsorder")) ordering = StopSequenceRequest.OrderingOption.DFS_ORDER;
 		if(options.toLowerCase().contains("-allsequences")) sequences = StopSequenceRequest.SequencesOption.ALL_SEQUENCES;
+		if(options.toLowerCase().contains("-bestsequences")){
+			sequences = StopSequenceRequest.SequencesOption.BEST_SEQUENCES;
+			if(options.toLowerCase().contains("-bestsequencesbydistance")){
+				ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_DISTANCE;
+			}else{
+				ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_TIME;
+			}
+		}
 		
 		System.out.println("Attempting to generate excel file");
 		FileOutput.generateExcelFile(stops, outputExcelFile,ordering, sequences);
