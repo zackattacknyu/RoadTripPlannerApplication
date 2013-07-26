@@ -46,12 +46,11 @@ public class FileInput {
 		}
 		File outputExcelFile = excelFileChooser.getSelectedFile();
 		String[] stops = null;
-		String options = JOptionPane.showInputDialog("Any options? \nType -DfsOrder for the sequences to" + 
-				" display in DFS instead of BFS order. \n" + 
-				"Type -AllSequences to display all the " + 
-				"possible stop sequences instead of just the ordered ones.\n" + 
-				"Type -BestSequences or -BestSequencesByTime to display the best order to visit each set of stops by time\n" + 
-				"Type -BestSequencesByDistance to display the best order to visit each set of stops by distance");
+		String options = JOptionPane.showInputDialog("Any options? By default, this displays the best order to visit each set of stops by time.\n" + 
+				"Type -ByDistance to display the best sequences by distance instead of time.\n" +
+				"Type -DfsOrder or -BfsOrder for the sequences to display in those orders instead of the default. \n" + 
+				"Type -AllSequences to display all the possible stop sequences instead of just the best ones.\n" +
+				"Type -OrderedSequences to display all the ordered sequences instead of the best sequences");
 		if(String.valueOf(options).equals("null")) return;
 		
 		try {
@@ -60,18 +59,14 @@ public class FileInput {
 			System.out.println("That file was not found");
 		}
 		
-		StopSequenceRequest.OrderingOption ordering = StopSequenceRequest.OrderingOption.BFS_ORDER;
-		StopSequenceRequest.SequencesOption sequences = StopSequenceRequest.SequencesOption.ONLY_ORDERED_SEQUENCES;
+		StopSequenceRequest.OrderingOption ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_TIME;
+		StopSequenceRequest.SequencesOption sequences = StopSequenceRequest.SequencesOption.BEST_SEQUENCES;
+		if(options.toLowerCase().contains("-bydistance")) ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_DISTANCE;
+		
 		if(options.toLowerCase().contains("-dfsorder")) ordering = StopSequenceRequest.OrderingOption.DFS_ORDER;
+		if(options.toLowerCase().contains("-bfsorder")) ordering = StopSequenceRequest.OrderingOption.BFS_ORDER;
 		if(options.toLowerCase().contains("-allsequences")) sequences = StopSequenceRequest.SequencesOption.ALL_SEQUENCES;
-		if(options.toLowerCase().contains("-bestsequences")){
-			sequences = StopSequenceRequest.SequencesOption.BEST_SEQUENCES;
-			if(options.toLowerCase().contains("-bestsequencesbydistance")){
-				ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_DISTANCE;
-			}else{
-				ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_TIME;
-			}
-		}
+		if(options.toLowerCase().contains("-orderedsequences")) sequences = StopSequenceRequest.SequencesOption.ONLY_ORDERED_SEQUENCES;
 		
 		System.out.println("Attempting to generate excel file");
 		FileOutput.generateExcelFile(stops, outputExcelFile,ordering, sequences);
