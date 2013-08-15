@@ -2,6 +2,8 @@ package com.zrd.rtp.fileviewcontroller.fileio;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -24,18 +26,37 @@ public class FileInput {
 
 	/**
 	 * @param args
+	 * @throws URISyntaxException 
+	 * @throws UnsupportedEncodingException 
 	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args){
+	public static void main(String[] args) throws UnsupportedEncodingException, URISyntaxException{
 		
-		FileFilter textFilesOnly = new FileNameExtensionFilter("Text Files","txt");
-		JFileChooser textFileChooser = new JFileChooser();
-		textFileChooser.setFileFilter(textFilesOnly);
-		int result = textFileChooser.showOpenDialog(null);
-		if(result == JFileChooser.CANCEL_OPTION){
-			return;
+		String googleUrl = JOptionPane.showInputDialog(
+				"Enter the Google Maps URL or hit " +
+				"Cancel to specify a text file");
+		int result;
+		String[] stops = null;
+		File inputTextFile = null;
+		if(googleUrl == null){
+			FileFilter textFilesOnly = new FileNameExtensionFilter("Text Files","txt");
+			JFileChooser textFileChooser = new JFileChooser();
+			textFileChooser.setFileFilter(textFilesOnly);
+			result = textFileChooser.showOpenDialog(null);
+			if(result == JFileChooser.CANCEL_OPTION){
+				return;
+			}
+			inputTextFile = textFileChooser.getSelectedFile();
+			try {
+				stops = getStopsFromFile(inputTextFile);
+			} catch (FileNotFoundException e) {
+				System.out.println("That file was not found");
+			}
+		}else{
+			stops = GoogleMapsUrlConvertor.getAddressesFromURL(googleUrl);
 		}
-		File inputTextFile = textFileChooser.getSelectedFile();
+		
+		
 		
 		FileFilter excelFilesOnly = new FileNameExtensionFilter("Excel Files","xls","xlsx");
 		JFileChooser excelFileChooser = new JFileChooser(inputTextFile);
@@ -45,7 +66,7 @@ public class FileInput {
 			return;
 		}
 		File outputExcelFile = excelFileChooser.getSelectedFile();
-		String[] stops = null;
+		
 		String options = JOptionPane.showInputDialog("Any options? By default, this displays the best order to visit each set of stops by time.\n" + 
 				"Type -ByDistance to display the best sequences by distance instead of time.\n" +
 				"Type -DfsOrder or -BfsOrder for the sequences to display in those orders instead of the default. \n" + 
@@ -53,11 +74,7 @@ public class FileInput {
 				"Type -OrderedSequences to display all the ordered sequences instead of the best sequences");
 		if(String.valueOf(options).equals("null")) return;
 		
-		try {
-			stops = getStopsFromFile(inputTextFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("That file was not found");
-		}
+		
 		
 		StopSequenceRequest.OrderingOption ordering = StopSequenceRequest.OrderingOption.BEST_SEQUENCES_BY_TIME;
 		StopSequenceRequest.SequencesOption sequences = StopSequenceRequest.SequencesOption.BEST_SEQUENCES;

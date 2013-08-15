@@ -10,27 +10,6 @@ import java.util.Scanner;
 
 
 public class GoogleMapsUrlConvertor {
-
-	/**
-	 * @param args
-	 * @throws URISyntaxException 
-	 * @throws UnsupportedEncodingException 
-	 */
-	public static void main(String[] args) throws UnsupportedEncodingException, URISyntaxException {
-		
-		Scanner sc = new Scanner(System.in);
-		String url = sc.nextLine();
-		
-		String[] addrs = getAddressesFromURL(url);
-		
-		for(String addr: addrs){
-			System.out.println("|" + addr + "|");
-		}
-		
-		System.out.println(getUrlFromAddresses(addrs));
-		
-
-	}
 	
 	/**
 	 * This takes in a string array of addresses and returns the google maps URL
