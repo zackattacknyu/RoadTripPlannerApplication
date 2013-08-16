@@ -1,6 +1,8 @@
 package com.zrd.rtp.model.client;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,8 +37,9 @@ public class StopSequenceRequest {
 		
 		makeSequenceSet();
 		makeSequenceArray();
-		makeSequenceDataTable();
 		makeOutputAddressArray();
+		makeSequenceDataTable();
+		
 	}
 	public List<Object[]> getSequenceDataTable() {
 		return sequenceDataTable;
@@ -83,7 +86,7 @@ public class StopSequenceRequest {
 		}
 	}
 	
-	private void makeSequenceDataTable(){
+	private void makeSequenceDataTable() throws UnsupportedEncodingException{
 		sequenceDataTable = new ArrayList<Object[]>(sequenceArray.length);
 		for(StopSequence seq: sequenceArray){
 			sequenceDataTable.add(getSequenceRow(seq,measurementUnit));
@@ -94,7 +97,7 @@ public class StopSequenceRequest {
 		this.outputAddresses = seqSet.getGoogleData().getAddresses();
 	}
 	
-	public static Object[] getSequenceRow(StopSequence seq, MeasurementUnitOption option){
+	public Object[] getSequenceRow(StopSequence seq, MeasurementUnitOption option) throws UnsupportedEncodingException{
 		double distanceValue = 0;
 		switch(option){
 		case METRIC: distanceValue = seq.getAddedDistance().getMetricValue(); break;
@@ -102,12 +105,26 @@ public class StopSequenceRequest {
 		}
 		
 		Object[] toReturn = {
-				seq.toString(),
+				getLinkDataMap(seq),
 				Double.valueOf(seq.getAddedTime().toValue()),
 				seq.getAddedTime().toString(),
 				distanceValue,
 				};
 		return toReturn;
+	}
+	
+	private HashMap<String,String> getLinkDataMap(StopSequence seq) throws UnsupportedEncodingException{
+		int index = 0;
+		String[] addresses = new String[seq.getStopNumbers().size()];
+		HashMap<String,String> linkData = new HashMap<String,String>(2);
+		
+		for(int num:seq.getStopNumbers()){
+			addresses[index++] = outputAddresses[num];
+		}
+		linkData.put("Label", seq.toString());
+		linkData.put("URL", GoogleMapsUrlConvertor.getUrlFromAddresses(addresses));
+		
+		return linkData;
 	}
 	
 	public static StopSequenceSet getOrderedSequenceSet(String[] route) throws Exception{

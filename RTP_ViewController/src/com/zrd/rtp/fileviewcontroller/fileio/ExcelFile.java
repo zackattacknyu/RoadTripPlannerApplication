@@ -3,8 +3,10 @@ package com.zrd.rtp.fileviewcontroller.fileio;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFHyperlink;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -86,6 +88,7 @@ public class ExcelFile {
 	    
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void createBodyRow(Row currentRow, Object[] bodyRow, int[] types){
 		Cell currentCell;
 		
@@ -97,7 +100,10 @@ public class ExcelFile {
             //set the format of the cells
             currentCell.setCellStyle(bodyStyle);
             
-            currentCell.setCellType(types[index]);
+            if(types[index] != Integer.MAX_VALUE){
+            	currentCell.setCellType(types[index]);
+            }
+            
             
             //put the value into the cell
             switch(types[index]){
@@ -106,7 +112,9 @@ public class ExcelFile {
             case Cell.CELL_TYPE_FORMULA:
             	currentCell.setCellFormula(String.valueOf(bodyRow[index])); break;
             case Integer.MAX_VALUE:
-            	currentCell.setHyperlink((Hyperlink)bodyRow[index]); break; //MAX_VALUE integer will be used to denote hyperlinks
+            	HashMap<String,String> cellInfo = (HashMap<String,String>)bodyRow[index];
+            	currentCell.setCellValue(cellInfo.get("Label"));
+            	currentCell.setHyperlink(LinkDataToMap(cellInfo)); break; //MAX_VALUE integer will be used to denote hyperlinks
             case Cell.CELL_TYPE_STRING:
             	currentCell.setCellValue(String.valueOf(bodyRow[index])); break;
             default:
@@ -116,6 +124,13 @@ public class ExcelFile {
             			"for more information on the types of cells.");
             }
 	    }
+	}
+	
+	public static Hyperlink LinkDataToMap(HashMap<String,String> linkData){
+		Hyperlink linkInfo = new HSSFHyperlink(org.apache.poi.common.usermodel.Hyperlink.LINK_URL);
+		linkInfo.setAddress(linkData.get("URL"));
+		linkInfo.setLabel(linkData.get("Label"));
+		return linkInfo;
 	}
 	
 	/**

@@ -28,7 +28,7 @@ public class FileOutput {
 			output.addSheet("Sequence Legend", request.getOutputAddresses(), infoTypes, infoHeader);
 			
 			String[] header = {"Sequence","Added Time (minutes)","Added Time","Added Distance(miles)"};
-			int[] types = {Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC,Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC};
+			int[] types = {Integer.MAX_VALUE,Cell.CELL_TYPE_NUMERIC,Cell.CELL_TYPE_STRING,Cell.CELL_TYPE_NUMERIC};
 			output.addSheet("Sequence Data", 
 					request.getSequenceDataTable(), 
 					types, header);

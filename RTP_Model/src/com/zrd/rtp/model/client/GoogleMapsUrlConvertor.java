@@ -1,4 +1,4 @@
-package com.zrd.rtp.fileviewcontroller.fileio;
+package com.zrd.rtp.model.client;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
