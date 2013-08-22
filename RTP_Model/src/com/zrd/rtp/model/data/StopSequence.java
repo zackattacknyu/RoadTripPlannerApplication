@@ -6,8 +6,12 @@ import java.util.HashSet;
 
 public class StopSequence implements Comparable<StopSequence>,Cloneable{
 
+	//this adds the stop and ensures the order
 	private ArrayList<Integer> stopNumbers;
+	
+	//this is used to add the stop and ensure uniqueness
 	private HashSet<Integer> stopNumbersSet;
+	
 	private Distance addedDistance;
 	private Duration addedTime;
 	private int stopsHashNumber = 0;
@@ -27,6 +31,10 @@ public class StopSequence implements Comparable<StopSequence>,Cloneable{
 	
 	public Distance getAddedDistance() {
 		return addedDistance;
+	}
+	
+	public boolean hasStop(int stopNum){
+		return stopNumbersSet.contains(stopNum);
 	}
 
 	public void setAddedDistance(Distance addedDistance) {

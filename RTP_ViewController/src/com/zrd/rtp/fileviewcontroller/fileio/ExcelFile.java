@@ -1,13 +1,16 @@
 package com.zrd.rtp.fileviewcontroller.fileio;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFHyperlink;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -113,6 +116,15 @@ public class ExcelFile {
             	currentCell.setCellFormula(String.valueOf(bodyRow[index])); break;
             case Integer.MAX_VALUE:
             	HashMap<String,String> cellInfo = (HashMap<String,String>)bodyRow[index];
+            	
+            	//sets the hyperlink to be blue and underline
+            	HSSFCellStyle hyperlinkStyle = (HSSFCellStyle)GetBodyCellStyle(workbook);
+            	Font hyperlinkFont = workbook.createFont();
+            	hyperlinkFont.setUnderline(Font.U_SINGLE);
+            	hyperlinkFont.setColor(HSSFColor.BLUE.index);
+            	hyperlinkStyle.setFont(hyperlinkFont);
+            	currentCell.setCellStyle(hyperlinkStyle);
+            	
             	currentCell.setCellValue(cellInfo.get("Label"));
             	currentCell.setHyperlink(LinkDataToMap(cellInfo)); break; //MAX_VALUE integer will be used to denote hyperlinks
             case Cell.CELL_TYPE_STRING:

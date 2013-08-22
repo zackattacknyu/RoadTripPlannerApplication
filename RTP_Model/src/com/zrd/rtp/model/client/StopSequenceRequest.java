@@ -106,11 +106,27 @@ public class StopSequenceRequest {
 		
 		Object[] toReturn = {
 				getLinkDataMap(seq),
+				getOmittedStops(seq),
 				Double.valueOf(seq.getAddedTime().toValue()),
 				seq.getAddedTime().toString(),
 				distanceValue,
 				};
 		return toReturn;
+	}
+	
+	private String getOmittedStops(StopSequence seq){
+		StringBuilder omittedStops = new StringBuilder();
+		for(int stopNum = 0; stopNum < outputAddresses.length; stopNum++){
+			if(!seq.hasStop(stopNum)){
+				omittedStops.append(stopNum + ", ");
+			}
+		}
+		if(omittedStops.length() < 1){
+			omittedStops.append("<NONE>");
+		}else{
+			omittedStops.delete(omittedStops.length()-2, omittedStops.length());
+		}
+		return omittedStops.toString();
 	}
 	
 	private HashMap<String,String> getLinkDataMap(StopSequence seq) throws UnsupportedEncodingException{
