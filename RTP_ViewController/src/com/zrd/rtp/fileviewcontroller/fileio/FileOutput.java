@@ -1,14 +1,8 @@
 package com.zrd.rtp.fileviewcontroller.fileio;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
-
 import com.zrd.rtp.model.client.StopSequenceRequest;
-import com.zrd.rtp.model.data.StopSequence;
-import com.zrd.rtp.model.data.StopSequenceSet;
 
 public class FileOutput {
 
@@ -34,6 +28,8 @@ public class FileOutput {
 					types, header);
 			
 			output.writeWorkbookToFile(excelFile);
+			
+			System.out.println("Successfuly generated excel file");
 		}catch(Exception e){
 			System.out.println("Error trying to obtain set");
 			e.printStackTrace();
